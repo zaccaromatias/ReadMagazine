@@ -13,6 +13,7 @@ namespace ReadMagazine.WebUI.Controllers
 
         public ActionResult Index()
         {
+            var popo = "lolo";
             return View();
         }
 
