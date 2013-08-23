@@ -13,7 +13,7 @@ namespace ReadMagazine.WebUI.Controllers
 
         public ActionResult Index()
         {
-            
+            var popo = "Desde la maquina de neoris";
             return View();
         }
 
