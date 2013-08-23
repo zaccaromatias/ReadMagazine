@@ -13,13 +13,7 @@ namespace ReadMagazine.WebUI.Controllers
 
         public ActionResult Index()
         {
-            var lila = "lila";
-            var lila31 = "lila";
-            var w12 = "lila";            
-            var coneko = "21po";
-            var pepe = "pepe";
-            var pe1pe13 = ".,pepe";
-            var popo = "copia";
+            
             return View();
         }
 
