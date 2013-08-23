@@ -1,0 +1,64 @@
+﻿@model ReadMagazine.WebUI.Models.ClientViewModelAndLogOnViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<style>
+    #Login .field-validation-error
+    {
+        color: #F7683B !important;
+        text-transform: none !important;
+        font-size: 12px !important;
+        
+        line-height: 12px !important;
+        margin-bottom: 10px !important;
+    }
+
+    
+</style>
+<div class="cover-elements">
+    <div class="logo">
+        ReadMagazine
+    </div>
+    <h1 style="color: #F86738; margin: 0 0 0 30%;">@TempData["message"]</h1>
+    <h1>Where you create your magazines<span>Inspired by <a href="http://flipboard.com/">Flipboard</a></span></h1>
+    <h1><span>Flip to Sign Up</span></h1>
+    <div class="f-cover-story">
+        <span>Start creating!</span>
+        Login
+        @using (Html.BeginForm("Login", "Client", FormMethod.Post, new { id = "Login"}))
+        {
+           @Html.ValidationSummary(true)
+@*<label>UserName</label>*@
+            @Html.TextBoxFor(model => model.Login.UserName, new { @class = "span3", placeholder = "UserName" })
+            
+            @Html.ValidationMessageFor(model => model.Login.UserName)
+@*@Html.LabelFor(model => model.UserName)*@
+                
+                
+@*@Html.ValidationMessageFor(model => model.UserName)*@
+@*<label>Pasword</label>*@
+            @Html.TextBoxFor(model => model.Login.Password, new { @class = "span3", placeholder = "Password", type="password" })
+            
+            @Html.ValidationMessageFor(model => model.Login.Password)
+            <label class="checkbox">
+                <input type="checkbox" name="remember" value="1" />
+                Remember Me
+            </label>
+            <button class="btn-info btn" type="submit">Login</button>
+            <button class="btn-info btn" type="button">Forgot my password</button>
+            if (@TempData["errorUserOrPasword"] != null)
+            {
+            <div class="alert alert-error" style=" font-size: initial; line-height: initial; text-transform: none; margin-top: 5px;">
+                <a class="close" data-dismiss="alert" href="#">x</a>
+                @TempData["errorUserOrPasword"]
+            </div>
+            }
+        }
+
+
+
+    </div>
+</div>
+<div class="f-cover-flip">&lt; Sign Up</div>

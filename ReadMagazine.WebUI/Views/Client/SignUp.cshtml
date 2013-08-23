@@ -1,0 +1,82 @@
+﻿@model ReadMagazine.WebUI.Models.ClientViewModelAndLogOnViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Sign Up";
+}
+<style>
+    #SignUp .field-validation-error
+    {
+        color: #F7683B !important;
+        text-transform: none !important;
+        font-size: 12px !important;
+        margin-top: -20px !important;
+        line-height: 12px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .text-box
+    {
+        margin-top: -25px !important;
+    }
+</style>
+<div class="cover-elements">
+    <div class="logo">
+        ReadMagazine
+    </div>
+    <h1 class="left" style="text-align: right; color: #F86738;  margin: -2% 51% 15px 0px !important;">@TempData["messageError"]</h1>
+    <h1 class="left">Sign up and read the news <span>in your own  <a href="javascript:return false;">magazine</a></span></h1>
+    <h1 class="left"><span>Flip if already registered</span></h1>
+
+    <div class="f-cover-story" style="left: 402px; bottom: 10px">
+        <div class="span3">
+
+            <h2>Sign Up</h2>
+            @using (Html.BeginForm("SignUp", "Client", FormMethod.Post, new {id="SignUp" }))
+            {
+                @Html.ValidationSummary(true)
+
+                @Html.LabelFor(model => model.ClientExtendedView.UserName)
+                @Html.EditorFor(model => model.ClientExtendedView.UserName)
+                @Html.ValidationMessageFor(model => model.ClientExtendedView.UserName)
+                 
+                
+                
+                
+                @Html.LabelFor(model => model.ClientExtendedView.Password)
+                @Html.EditorFor(model => model.ClientExtendedView.Password)
+                @Html.ValidationMessageFor(model => model.ClientExtendedView.Password)
+
+                @Html.LabelFor(model => model.ClientExtendedView.ConfirmPassword)
+                @Html.EditorFor(model => model.ClientExtendedView.ConfirmPassword)
+                @Html.ValidationMessageFor(model => model.ClientExtendedView.ConfirmPassword)
+
+                @Html.LabelFor(model => model.ClientExtendedView.Email)
+                @Html.EditorFor(model => model.ClientExtendedView.Email)
+                @Html.ValidationMessageFor(model => model.ClientExtendedView.Email)
+
+                <button class="btn-info btn pull-right" type="submit">Sign up</button>
+            }
+
+        </div>
+    </div>
+    <span class="spanLeft">Enjoy the news <strong>your way</strong> </span>
+
+
+</div>
+<div class="f-cover-flip-left">Login ></div>
+<div style="width: 25%; margin-top: 20%">
+    @{
+        var errors = (List<string>)TempData["ModelErrors"];
+        if (errors != null && errors.Count() > 0)
+        {
+
+            foreach (var error in errors)
+            {
+        <div class="alert alert-error" style="font-size: 12px; line-height: 13px; text-transform: none; margin-top: 5px;">
+            <a class="close" data-dismiss="alert" href="#">x</a>@error
+        </div>
+            }
+
+        }
+    }
+</div>
