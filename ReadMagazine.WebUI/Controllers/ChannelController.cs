@@ -13,7 +13,9 @@ namespace ReadMagazine.WebUI.Controllers
 
         public ActionResult Index()
         {
-            var popo = "copia";
+            var lila = "lila";
+            var popo = "c2coneopia";
+            var coneko = "popo";
             return View();
         }
 
