@@ -11,9 +11,9 @@ namespace ReadMagazine.WebUI.Controllers
         //
         // GET: /Channel/
 
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            var popo = "Desde la maquina de neoris";
+            ViewBag.id = id;
             return View();
         }
 

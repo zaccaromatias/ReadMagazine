@@ -30,6 +30,7 @@ namespace ReadMagazine.WebUI
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Client", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
+            
 
 
 

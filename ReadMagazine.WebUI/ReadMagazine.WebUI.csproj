@@ -247,6 +247,7 @@
     <Content Include="Views\Client\SignUp.cshtml" />
     <Content Include="Views\Client\Login.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Channel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
