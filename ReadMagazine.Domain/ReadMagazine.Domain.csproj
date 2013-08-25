@@ -50,7 +50,13 @@
     <Compile Include="Abstract\IClientsRepository.cs" />
     <Compile Include="Concrete\EFClientRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
+    <Compile Include="Concrete\ORM\Channel.cs">
+      <DependentUpon>ReadMagazineModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\ORM\Client.cs">
+      <DependentUpon>ReadMagazineModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\ORM\Noticia.cs">
       <DependentUpon>ReadMagazineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\ORM\ReadMagazineModel.Context.cs">
@@ -72,9 +78,6 @@
       <DependentUpon>ReadMagazineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\ORM\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ReadMagazineModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\ORM\sysdiagram.cs">
       <DependentUpon>ReadMagazineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\Client.cs" />

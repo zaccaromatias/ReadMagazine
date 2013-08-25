@@ -12,18 +12,16 @@ namespace ReadMagazine.Domain.Concrete.ORM
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class Noticia
     {
-        public Client()
-        {
-            this.Channels = new HashSet<Channel>();
-        }
+        public int Id_Noticia { get; set; }
+        public int Id_Channel { get; set; }
+        public string Title { get; set; }
+        public string Link { get; set; }
+        public string Descripcion { get; set; }
+        public string Contenido { get; set; }
+        public string UrlImage { get; set; }
     
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public int ClientId { get; set; }
-    
-        public virtual ICollection<Channel> Channels { get; set; }
+        public virtual Channel Channel { get; set; }
     }
 }

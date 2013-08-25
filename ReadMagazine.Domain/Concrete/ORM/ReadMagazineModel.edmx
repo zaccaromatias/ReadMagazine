@@ -6,8 +6,27 @@
     <edmx:StorageModels>
     <Schema Namespace="ReadMagazineModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ReadMagazineModelStoreContainer">
+          <EntitySet Name="Channels" EntityType="ReadMagazineModel.Store.Channels" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Clients" EntityType="ReadMagazineModel.Store.Clients" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Noticias" EntityType="ReadMagazineModel.Store.Noticias" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="Channels_fk" Association="ReadMagazineModel.Store.Channels_fk">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Channels" EntitySet="Channels" />
+          </AssociationSet>
+          <AssociationSet Name="Noticias_fk" Association="ReadMagazineModel.Store.Noticias_fk">
+            <End Role="Channels" EntitySet="Channels" />
+            <End Role="Noticias" EntitySet="Noticias" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Client" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="UrlXml" Type="varchar" Nullable="false" MaxLength="200" />
+        </EntityType>
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientId" />
@@ -17,6 +36,42 @@
           <Property Name="Email" Type="varchar" Nullable="false" MaxLength="200" />
           <Property Name="ClientId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="Noticias">
+          <Key>
+            <PropertyRef Name="Id_Noticia" />
+          </Key>
+          <Property Name="Id_Noticia" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Channel" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Link" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Descripcion" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Contenido" Type="varchar(max)" />
+          <Property Name="UrlImage" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="Channels_fk">
+          <End Role="Clients" Type="ReadMagazineModel.Store.Clients" Multiplicity="1" />
+          <End Role="Channels" Type="ReadMagazineModel.Store.Channels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="Channels">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Noticias_fk">
+          <End Role="Channels" Type="ReadMagazineModel.Store.Channels" Multiplicity="1" />
+          <End Role="Noticias" Type="ReadMagazineModel.Store.Noticias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noticias">
+              <PropertyRef Name="Id_Channel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -84,6 +139,16 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="Channels" EntityType="ReadMagazineModel.Channel" />
+          <AssociationSet Name="Channels_fk" Association="ReadMagazineModel.Channels_fk">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Channel" EntitySet="Channels" />
+          </AssociationSet>
+          <EntitySet Name="Noticias" EntityType="ReadMagazineModel.Noticia" />
+          <AssociationSet Name="Noticias_fk" Association="ReadMagazineModel.Noticias_fk">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="Noticia" EntitySet="Noticias" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -93,6 +158,7 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Channels" Relationship="ReadMagazineModel.Channels_fk" FromRole="Client" ToRole="Channel" />
         </EntityType>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -105,6 +171,54 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ID_Client" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UrlXml" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="ReadMagazineModel.Channels_fk" FromRole="Channel" ToRole="Client" />
+          <NavigationProperty Name="Noticias" Relationship="ReadMagazineModel.Noticias_fk" FromRole="Channel" ToRole="Noticia" />
+        </EntityType>
+        <Association Name="Channels_fk">
+          <End Type="ReadMagazineModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="ReadMagazineModel.Channel" Role="Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="ID_Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Noticia">
+          <Key>
+            <PropertyRef Name="Id_Noticia" />
+          </Key>
+          <Property Type="Int32" Name="Id_Noticia" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id_Channel" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Link" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Contenido" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UrlImage" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Channel" Relationship="ReadMagazineModel.Noticias_fk" FromRole="Noticia" ToRole="Channel" />
+        </EntityType>
+        <Association Name="Noticias_fk">
+          <End Type="ReadMagazineModel.Channel" Role="Channel" Multiplicity="1" />
+          <End Type="ReadMagazineModel.Noticia" Role="Noticia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Noticia">
+              <PropertyRef Name="Id_Channel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -145,6 +259,29 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ReadMagazineModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ReadMagazineModel.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="ReadMagazineModel.Channel">
+              <MappingFragment StoreEntitySet="Channels">
+                <ScalarProperty Name="UrlXml" ColumnName="UrlXml" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Noticias">
+            <EntityTypeMapping TypeName="ReadMagazineModel.Noticia">
+              <MappingFragment StoreEntitySet="Noticias">
+                <ScalarProperty Name="UrlImage" ColumnName="UrlImage" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id_Channel" ColumnName="Id_Channel" />
+                <ScalarProperty Name="Id_Noticia" ColumnName="Id_Noticia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -159,7 +296,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

@@ -29,6 +29,8 @@ namespace ReadMagazine.Domain.Concrete.ORM
         }
     
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Channel> Channels { get; set; }
+        public DbSet<Noticia> Noticias { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

@@ -12,12 +12,19 @@ namespace ReadMagazine.Domain.Concrete.ORM
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class Channel
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public Channel()
+        {
+            this.Noticias = new HashSet<Noticia>();
+        }
+    
+        public int Id { get; set; }
+        public int ID_Client { get; set; }
+        public string Name { get; set; }
+        public string UrlXml { get; set; }
+    
+        public virtual Client Client { get; set; }
+        public virtual ICollection<Noticia> Noticias { get; set; }
     }
 }
