@@ -112,6 +112,7 @@
     <Compile Include="Infrastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infrastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
+    <Compile Include="Models\ChannelViewModel.cs" />
     <Compile Include="Models\ClientViewModelAndLogOnViewModel.cs" />
     <Compile Include="Models\LogOnViewModel.cs" />
     <Compile Include="Models\ClientViewModel.cs" />
@@ -220,6 +221,7 @@
     <Content Include="Styles\demo.css" />
     <Content Include="Styles\fallback.css" />
     <Content Include="Styles\style.css" />
+    <Content Include="Styles\styleOriginal.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -242,11 +244,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Source\Options.cshtml" />
-    <Content Include="Views\Shared\_MagazineLayout.cshtml" />
+    <Content Include="Views\Shared\_MagazineLayoutHome.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Client\SignUp.cshtml" />
     <Content Include="Views\Client\Login.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Shared\_MagazineChannel.cshtml" />
     <Content Include="Views\Channel\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

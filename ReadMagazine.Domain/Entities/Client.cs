@@ -23,5 +23,7 @@ namespace ReadMagazine.Domain.Entities
         [Required(ErrorMessage = "Please enter a Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        public virtual ICollection<Channel> Channels { get; set; }
     }
 }

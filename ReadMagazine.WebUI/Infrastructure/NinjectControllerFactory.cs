@@ -47,7 +47,7 @@ namespace ReadMagazine.WebUI.Infrastructure
             //ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
             //ninjectKernel.Bind<ICategoriesRepository>().To<EFCategoryRepository>();
             ninjectKernel.Bind<IClientRepository>().To<EFClientRepository>();
-
+            ninjectKernel.Bind<IChannelRepository>().To<EFChannelRepository>();
             ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }

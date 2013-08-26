@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IChannelRepository.cs" />
     <Compile Include="Abstract\IClientsRepository.cs" />
+    <Compile Include="Concrete\EFChannelRepository.cs" />
     <Compile Include="Concrete\EFClientRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\ORM\Channel.cs">
@@ -80,7 +82,10 @@
     <Compile Include="Concrete\ORM\sp_helpdiagrams_Result.cs">
       <DependentUpon>ReadMagazineModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Channel.cs" />
+    <Compile Include="Entities\ChannelRss.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\Noticia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

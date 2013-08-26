@@ -20,7 +20,7 @@
     <script id="pageTmpl" type="text/x-jquery-tmpl">
         <div class="${theClass}" style="${theStyle}">
             <div class="front">
-                <div class="outer"> 
+                <div class="outer">
                     <div class="content" style="${theContentStyleFront}">
                         <div class="inner">{{html theContentFront}}</div>
                     </div>
@@ -44,7 +44,7 @@
         @{Html.RenderAction("Options", "Source");}
 
     </header>
-    <header class="main-title" style="left:50%">
+    <header class="main-title" style="left: 50%">
         <h1>Experimental Page Layout <strong>Inspired by Flipboard</strong></h1>
         <p>Swipe or drag to flip the pages, click to open items </p>
         <p><strong>Best viewed in a Webkit browser (Safari, Chrome)</strong></p>
@@ -55,7 +55,7 @@
 
 
     </div>
-    
+
 
     <footer class="main-title-fotter">
         <p>Best viewed in a Webkit browser (Safari, Chrome)</p>
@@ -78,7 +78,7 @@
                     $pages.show();
                 }
                 else if (url === '/Scripts/jquery.flips.js') {
-                    $container.flips(option = {"current":'@ViewBag.Page' });
+                    $container.flips(option = { "current": '@ViewBag.Page' });
                 }
 
             }
