@@ -22,7 +22,7 @@ namespace ReadMagazine.WebUI.Controllers
         public ActionResult Index(string id)
         {
             ViewBag.id = id;
-            //http://feeds.feedburner.com/redusers/internacionals
+            //http://feeds.feedburner.com/redusers/internacional
             var channel = new Channel() { UrlXml = "http://www.lacapital.com.ar/rss/home.xml" };
             var model = _channerlRepository.GetNoticias(channel);
             return View(model);
