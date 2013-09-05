@@ -11,7 +11,8 @@ namespace ReadMagazine.Domain.Entities
         public string LinkChannel { get; set; }
         public string UrlImage { get; set; }
         public string DescriptionChannel { get; set; }
-        
-        public List<Noticia> Items { get; set; }
+
+        public List<Pagina> Paginas { get; set; }
+        //public List<Noticia> Items { get; set; }
     }
 }

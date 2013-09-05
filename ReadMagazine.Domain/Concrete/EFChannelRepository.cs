@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using ReadMagazine.Domain.Abstract;
 using ReadMagazine.Domain.Concrete.ORM;
+using ReadMagazine.Domain.Entities;
 using entitie = ReadMagazine.Domain.Entities;
 
 namespace ReadMagazine.Domain.Concrete
@@ -54,6 +55,8 @@ namespace ReadMagazine.Domain.Concrete
         {
             get { return context.Noticias; }
         }
+        private XmlNamespaceManager NamespaceManager { get; set; }
+        private static int Contador { get; set; }
 
         public entitie.ChannelRss GetNoticias(ORM.Channel channelView)
         {
@@ -66,8 +69,8 @@ namespace ReadMagazine.Domain.Concrete
                 doc.Load(reader);
                 //doc.Save("c:\\reduser.xml");
                 //NameSpace para leer el content
-                XmlNamespaceManager namespaceManager = new XmlNamespaceManager(doc.NameTable);
-                namespaceManager.AddNamespace("content", doc.DocumentElement.GetNamespaceOfPrefix("content"));
+                this.NamespaceManager = new XmlNamespaceManager(doc.NameTable);
+                this.NamespaceManager.AddNamespace("content", doc.DocumentElement.GetNamespaceOfPrefix("content"));
 
                 var tituloChanel = doc.SelectSingleNode("/rss/channel/title");
                 var linkChanel = doc.SelectSingleNode("/rss/channel/link");
@@ -82,16 +85,79 @@ namespace ReadMagazine.Domain.Concrete
                 if (descriptionChannel != null)
                     channel.DescriptionChannel = descriptionChannel.InnerText;
                 XmlNodeList items = doc.GetElementsByTagName("item");
-                channel.Items = new List<entitie.Noticia>();
+                channel.Paginas = CrearLayoutsParaCadaPagina(items);
+                var pp = "";
+                //foreach (XmlNode item in items)
+                //{
+                //    var noticia = new entitie.Noticia();
+                //    var titulo = item.SelectSingleNode("title");
+                //    var desc = item.SelectSingleNode("description");
+                //    var link = item.SelectSingleNode("link");
+                //    var contenido = item.SelectSingleNode("content:encoded", this.NamespaceManager);
+
+                //    noticia.Title = titulo.InnerText;
+                //    noticia.Link = link.InnerText;
+                //    noticia.Descripcion = desc.InnerText;
+                //    if (contenido != null)
+                //    {
+                //        noticia.Contenido = contenido.InnerText;
+                //    }
+
+                //    noticia.UrlImage = ExtractFirstHtmlImage(noticia.Descripcion);
+
+                //    channel.Items.Add(noticia);
+                //}
+                return channel;
+
+            }
+            else
+                return null;
+        }
+
+        private List<Pagina> CrearLayoutsParaCadaPagina(XmlNodeList items)
+        {
+            List<int> valoresPosible = new List<int>(new int[] { 25, 30, 40, 50, 60, 70, 75, 100 });
+            var totalDeNoticias = items.Count;
+            var quedanNoticias = totalDeNoticias;
+
+            List<Pagina> paginas = new List<Pagina>();
+            var ramdom = new Random();
 
 
-                foreach (XmlNode item in items)
+            while (quedanNoticias > 0)
+            {
+                var minimoNoticiasPorPagina = 2;
+                while (quedanNoticias % minimoNoticiasPorPagina == 1)
+                {
+                    minimoNoticiasPorPagina++;
+                }
+                var maximoNoticiasPorPagina = quedanNoticias >= 8 ? 8 : quedanNoticias <= minimoNoticiasPorPagina ? minimoNoticiasPorPagina : quedanNoticias;
+                Pagina pagina = new Pagina() { Noticias = new List<entitie.Noticia>() };
+                var cantidadEnEstaPagina = ramdom.Next(minimoNoticiasPorPagina, maximoNoticiasPorPagina);
+                List<int> listaValoresAtomarFinalWidth;
+                List<int> listaValoresAtomarFinalHeigth;
+                Contador = 0;
+                var bit = ramdom.Next(0, 1);
+                if (bit == 0)
+                {
+                    //Cargar primero los anchos
+                    listaValoresAtomarFinalWidth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, false);
+                    listaValoresAtomarFinalHeigth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, true);
+                }
+                else
+                {
+                    //Cargar Primero las alturas
+                    listaValoresAtomarFinalHeigth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, false);
+                    listaValoresAtomarFinalWidth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, true);
+                }
+                var indiceListaValores = 0;
+                for (int i = totalDeNoticias - quedanNoticias; i < (totalDeNoticias - quedanNoticias) + cantidadEnEstaPagina; i++, indiceListaValores++)
                 {
                     var noticia = new entitie.Noticia();
-                    var titulo = item.SelectSingleNode("title");
-                    var desc = item.SelectSingleNode("description");
-                    var link = item.SelectSingleNode("link");
-                    var contenido = item.SelectSingleNode("content:encoded", namespaceManager);
+                    var titulo = items[i].SelectSingleNode("title");
+                    var desc = items[i].SelectSingleNode("description");
+                    var link = items[i].SelectSingleNode("link");
+                    var contenido = items[i].SelectSingleNode("content:encoded", this.NamespaceManager);
 
                     noticia.Title = titulo.InnerText;
                     noticia.Link = link.InnerText;
@@ -100,16 +166,69 @@ namespace ReadMagazine.Domain.Concrete
                     {
                         noticia.Contenido = contenido.InnerText;
                     }
-
+                    noticia.WidthClass = "w-" + listaValoresAtomarFinalWidth[indiceListaValores];
+                    noticia.HeigthClass = "h-" + listaValoresAtomarFinalHeigth[indiceListaValores];
                     noticia.UrlImage = ExtractFirstHtmlImage(noticia.Descripcion);
 
-                    channel.Items.Add(noticia);
+                    pagina.Noticias.Add(noticia);
                 }
-                return channel;
+                paginas.Add(pagina);
+                quedanNoticias = quedanNoticias - cantidadEnEstaPagina;
 
             }
-            else
-                return null;
+            return paginas;
+
+        }
+
+        private static List<int> GetValoresFinales(List<int> valoresPosible, Random ramdom, int cantidadEnEstaPagina, bool tenerEncuentaContadorPrevio)
+        {
+            List<int> listaValoresAtomarFinal = new List<int>();
+            List<int> listaValoresAtomar = new List<int>();
+            var acum = 0;
+
+
+            for (int i = 0; i < cantidadEnEstaPagina; i++)
+            {
+                int minimoATomar = 1;
+                if (cantidadEnEstaPagina > 4)
+                {
+                    minimoATomar = cantidadEnEstaPagina - i % 4 >= 1 ? 1 : 4;
+                }
+
+
+
+                var dividirAnchoOAltoEn = tenerEncuentaContadorPrevio ? i >= Contador ? cantidadEnEstaPagina - i : Contador : ramdom.Next(minimoATomar, cantidadEnEstaPagina - i > 4 ? 4 : cantidadEnEstaPagina - i);
+
+                while (acum != 100)
+                {
+                    listaValoresAtomar = new List<int>();
+                    acum = 0;
+                    for (int i2 = 0; i2 < dividirAnchoOAltoEn; i2++)
+                    {
+                        var indiceValoresPosibleWidth = dividirAnchoOAltoEn == 1 ? 7 : ramdom.Next(0, valoresPosible.Count - 1);
+                        listaValoresAtomar.Add(valoresPosible[indiceValoresPosibleWidth]);
+                        acum = acum + valoresPosible[indiceValoresPosibleWidth];
+                    }
+                }
+                if (!tenerEncuentaContadorPrevio)
+                {
+                    if (Contador != 4)
+                        Contador++;
+                    i = i + listaValoresAtomar.Count - 1;
+                }
+                else 
+                {
+                    var sumar = i >= Contador ? cantidadEnEstaPagina - i : Contador;
+                    i = i + sumar - 1;
+
+                }
+                foreach (var val in listaValoresAtomar)
+                {
+                    listaValoresAtomarFinal.Add(val);
+                }
+                acum = 0;
+            }
+            return listaValoresAtomarFinal;
         }
 
         #endregion

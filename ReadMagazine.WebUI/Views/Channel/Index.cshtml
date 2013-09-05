@@ -21,24 +21,30 @@
         </div>
         <div class="f-cover-flip">&lt; Flip</div>
     </div>
-    <div class="f-page">
-        <div class="f-title">
-            <a href="#">Previous Demo</a>
-            <h2>RedUsers</h2>
-            <a href="#">Back to the Codrops Article</a>
-        </div>
-        @{ 
-            for (int i = 0; i < 4; i++)
-            {
-            <div class="box w-50 h-50">
-                <div class="img-cont" style="background-image: url(@Model.Items[i].UrlImage);"></div>
-                <h3>@Model.Items[i].Title<span>Published May 3, 2012</span></h3>
-                <p>@Html.Raw(Model.Items[i].Descripcion)</p>
-                <p>@Html.Raw(Model.Items[i].Contenido)</p>
+    @{
+        foreach (var pagina in Model.Paginas)
+        {
+        <div class="f-page">
+            <div class="f-title">
+                <a href="#">Previous Demo</a>
+                <h2>RedUsers</h2>
+                <a href="#">Back to the Codrops Article</a>
             </div>
+            @{
+            foreach (var noticia in pagina.Noticias)
+            {
+                <div class="box @noticia.WidthClass @noticia.HeigthClass">
+                    <h3>@noticia.Title<span>Published May 3, 2012</span></h3>
+                    <p>@Html.Raw(noticia.Descripcion)</p>
+                    <p>@Html.Raw(noticia.Contenido)</p>
+                </div>
+                        
             }
+            }
+        </div>
         }
-    </div>
+    }
+
     <div class="f-page f-cover-back">
         <div id="codrops-ad-wrapper">
         </div>
