@@ -13,6 +13,7 @@ namespace ReadMagazine.Domain.Concrete
 {
     public class EFChannelRepository : IChannelRepository
     {
+        
 
         #region Metodos para extraer urlImagen
         /// <summary>Default Uri</summary>
@@ -47,8 +48,10 @@ namespace ReadMagazine.Domain.Concrete
         }
         #endregion
 
+        
 
         private ReadMagazineEntities context = new ReadMagazineEntities();
+        
         #region IChannelRepository Members
 
         public IQueryable<ORM.Noticia> Noticias
@@ -57,6 +60,7 @@ namespace ReadMagazine.Domain.Concrete
         }
         private XmlNamespaceManager NamespaceManager { get; set; }
         private static int Contador { get; set; }
+        private static List<int> DivicionesList { get; set; }
 
         public entitie.ChannelRss GetNoticias(ORM.Channel channelView)
         {
@@ -127,31 +131,39 @@ namespace ReadMagazine.Domain.Concrete
             while (quedanNoticias > 0)
             {
                 var minimoNoticiasPorPagina = 2;
-                while (quedanNoticias % minimoNoticiasPorPagina == 1)
+                if (quedanNoticias != 1)
                 {
-                    minimoNoticiasPorPagina++;
+                    while ((quedanNoticias % minimoNoticiasPorPagina <= 1 && quedanNoticias % minimoNoticiasPorPagina != 0))
+                    {
+                        minimoNoticiasPorPagina++;
+                    }
                 }
+                else minimoNoticiasPorPagina = 1;
                 var maximoNoticiasPorPagina = quedanNoticias >= 8 ? 8 : quedanNoticias <= minimoNoticiasPorPagina ? minimoNoticiasPorPagina : quedanNoticias;
                 Pagina pagina = new Pagina() { Noticias = new List<entitie.Noticia>() };
                 var cantidadEnEstaPagina = ramdom.Next(minimoNoticiasPorPagina, maximoNoticiasPorPagina);
                 List<int> listaValoresAtomarFinalWidth;
                 List<int> listaValoresAtomarFinalHeigth;
                 Contador = 0;
-                var bit = ramdom.Next(0, 1);
-                if (bit == 0)
+                var primeroWidth = ramdom.Next(0, 1);
+                if (primeroWidth == 0)
                 {
                     //Cargar primero los anchos
+                    DivicionesList = new List<int>();
                     listaValoresAtomarFinalWidth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, false);
                     listaValoresAtomarFinalHeigth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, true);
                 }
                 else
                 {
                     //Cargar Primero las alturas
+                    DivicionesList = new List<int>();
                     listaValoresAtomarFinalHeigth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, false);
                     listaValoresAtomarFinalWidth = GetValoresFinales(valoresPosible, ramdom, cantidadEnEstaPagina, true);
                 }
-                var indiceListaValores = 0;
-                for (int i = totalDeNoticias - quedanNoticias; i < (totalDeNoticias - quedanNoticias) + cantidadEnEstaPagina; i++, indiceListaValores++)
+                var indiceListaValoresW = 0;
+                var indiceListaValoresH = 0;
+                int acum = 0;
+                for (int i = totalDeNoticias - quedanNoticias; i < (totalDeNoticias - quedanNoticias) + cantidadEnEstaPagina; i++ )
                 {
                     var noticia = new entitie.Noticia();
                     var titulo = items[i].SelectSingleNode("title");
@@ -166,11 +178,36 @@ namespace ReadMagazine.Domain.Concrete
                     {
                         noticia.Contenido = contenido.InnerText;
                     }
-                    noticia.WidthClass = "w-" + listaValoresAtomarFinalWidth[indiceListaValores];
-                    noticia.HeigthClass = "h-" + listaValoresAtomarFinalHeigth[indiceListaValores];
+
+                    if (primeroWidth == 0)
+                    {
+                        if (acum >= DivicionesList[indiceListaValoresH])
+                        { 
+                            indiceListaValoresH++;
+                            acum = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (acum >= DivicionesList[indiceListaValoresW])
+                        {
+                            indiceListaValoresW++;
+                            acum = -1;
+                        }
+                    }
+                    noticia.WidthClass = "w-" + listaValoresAtomarFinalWidth[indiceListaValoresW];
+
+                    
+                    noticia.HeigthClass = "h-" + listaValoresAtomarFinalHeigth[indiceListaValoresH];
                     noticia.UrlImage = ExtractFirstHtmlImage(noticia.Descripcion);
 
                     pagina.Noticias.Add(noticia);
+
+                    if (primeroWidth == 0)
+                        indiceListaValoresW++;
+                    else
+                        indiceListaValoresH++;
+                    acum++;
                 }
                 paginas.Add(pagina);
                 quedanNoticias = quedanNoticias - cantidadEnEstaPagina;
@@ -210,11 +247,13 @@ namespace ReadMagazine.Domain.Concrete
                         acum = acum + valoresPosible[indiceValoresPosibleWidth];
                     }
                 }
+                
                 if (!tenerEncuentaContadorPrevio)
                 {
                     if (Contador != 4)
                         Contador++;
                     i = i + listaValoresAtomar.Count - 1;
+                    DivicionesList.Add(dividirAnchoOAltoEn);
                 }
                 else 
                 {
@@ -222,6 +261,7 @@ namespace ReadMagazine.Domain.Concrete
                     i = i + sumar - 1;
 
                 }
+
                 foreach (var val in listaValoresAtomar)
                 {
                     listaValoresAtomarFinal.Add(val);

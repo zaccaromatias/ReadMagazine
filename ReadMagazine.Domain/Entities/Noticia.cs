@@ -25,10 +25,24 @@ namespace ReadMagazine.Domain.Entities
 
         [Required(ErrorMessage = "Please enter a Descripcion")]
         public string Descripcion { get; set; }
+        public string DescripcionSoloTexto
+        {
+            get
+            {
+                return HtmlRemoval.StripTagsCharArray(this.Descripcion);
+            }
+        }
 
         public string WidthClass { get; set; }
         public string HeigthClass { get; set; }
         public string Contenido { get; set; }
+        public string ContenidoSoloTexto 
+        {
+            get 
+            {
+                return HtmlRemoval.StripTagsCharArray(this.Contenido);
+            }
+        }
 
         
         public string UrlImage { get; set; }

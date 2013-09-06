@@ -87,6 +87,7 @@
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Noticia.cs" />
     <Compile Include="Entities\Pagina.cs" />
+    <Compile Include="Helpers\HtmlRemoval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

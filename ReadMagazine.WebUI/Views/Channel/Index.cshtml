@@ -17,7 +17,24 @@
                 <a class="f-ref" href="@Model.LinkChannel">@Model.TituloChannel</a>
             </div>
             <h1>@Model.DescriptionChannel</h1>
-            <div class="f-cover-story"><span>Cover Story</span>Shuttle Enterprise Flight to New York</div>
+            <div class="f-cover-story">
+                @{
+                    <span>
+                        @{var ramdom = new Random();
+
+                          var indicePagina = ramdom.Next(0, Model.Paginas.Count - 1);
+                          var indiceNoticiaTapa = ramdom.Next(0, Model.Paginas[indicePagina].Noticias.Count);
+                        }
+                        @Html.Raw(Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].Title)
+
+
+
+
+                    </span>
+                    @Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].DescripcionSoloTexto.Substring(0, 30);
+                
+                }
+            </div>
         </div>
         <div class="f-cover-flip">&lt; Flip</div>
     </div>
@@ -27,7 +44,7 @@
         <div class="f-page">
             <div class="f-title">
                 <a href="#">Previous Demo</a>
-                <h2>RedUsers</h2>
+                <h2>@Model.TituloChannel.Substring(0, 17) ...</h2>
                 <a href="#">Back to the Codrops Article</a>
             </div>
             @{
