@@ -12,9 +12,9 @@ namespace ReadMagazine.Domain.Concrete.ORM
     using System;
     using System.Collections.Generic;
     
-    public partial class Channel
+    public partial class ChannelDB
     {
-        public Channel()
+        public ChannelDB()
         {
             this.Noticias = new HashSet<Noticia>();
         }

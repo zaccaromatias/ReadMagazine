@@ -38,6 +38,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -52,7 +53,7 @@
     <Compile Include="Concrete\EFChannelRepository.cs" />
     <Compile Include="Concrete\EFClientRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
-    <Compile Include="Concrete\ORM\Channel.cs">
+    <Compile Include="Concrete\ORM\ChannelDB.cs">
       <DependentUpon>ReadMagazineModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\ORM\Client.cs">
@@ -87,6 +88,7 @@
     <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Noticia.cs" />
     <Compile Include="Entities\Pagina.cs" />
+    <Compile Include="Helpers\ExtractImages.cs" />
     <Compile Include="Helpers\HtmlRemoval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

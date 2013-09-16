@@ -8,61 +8,26 @@ using ReadMagazine.Domain.Abstract;
 using ReadMagazine.Domain.Concrete.ORM;
 using ReadMagazine.Domain.Entities;
 using entitie = ReadMagazine.Domain.Entities;
+using ReadMagazine.Domain.Helpers;
 
 namespace ReadMagazine.Domain.Concrete
 {
     public class EFChannelRepository : IChannelRepository
     {
-        
-
-        #region Metodos para extraer urlImagen
-        /// <summary>Default Uri</summary>
-        private const string TEMPURI = "http://tempuri.org";
-        private const string STR_IMGTAG_SRC_EXP = @"<img\s+[^>]*\bsrc\s*\=\s*[\x27\x22](?<Url>[^\x27\x22]*)[\x27\x22]";
-
-        /// <summary>
-        /// Extracts the first image Url from a html string
-        /// </summary>
-        /// <param name="htmlString">A string containing html code</param>
-        /// <returns>a string with the Url or first image in the htmlString parameter</returns>
-        /// <remarks>This method uses regular expressions,so using System.Text.RegularExpressions; must be addeed</remarks>
-        public static string ExtractFirstHtmlImage(string htmlString)
-        {
-            string respuesta = TEMPURI;
-            try
-            {
-                var rgx = new Regex(
-                    STR_IMGTAG_SRC_EXP,
-                                RegexOptions.IgnoreCase | RegexOptions.Multiline);
-
-                var match = rgx.Match(htmlString);
-
-                respuesta = match.Groups["Url"].Value;
-
-                if (respuesta == "")
-                    respuesta = TEMPURI;
-            }
-            catch { respuesta = TEMPURI; }
-
-            return respuesta;
-        }
-        #endregion
-
-        
-
         private ReadMagazineEntities context = new ReadMagazineEntities();
-        
+        private XmlNamespaceManager NamespaceManager { get; set; }
+        private static int Contador { get; set; }
+        private static List<int> DivicionesList { get; set; }
+
         #region IChannelRepository Members
 
         public IQueryable<ORM.Noticia> Noticias
         {
             get { return context.Noticias; }
         }
-        private XmlNamespaceManager NamespaceManager { get; set; }
-        private static int Contador { get; set; }
-        private static List<int> DivicionesList { get; set; }
 
-        public entitie.ChannelRss GetNoticias(ORM.Channel channelView)
+
+        public entitie.ChannelRss GetNoticias(ORM.ChannelDB channelView)
         {
             if (channelView != null)
             {
@@ -90,27 +55,8 @@ namespace ReadMagazine.Domain.Concrete
                     channel.DescriptionChannel = descriptionChannel.InnerText;
                 XmlNodeList items = doc.GetElementsByTagName("item");
                 channel.Paginas = CrearLayoutsParaCadaPagina(items);
-                var pp = "";
-                //foreach (XmlNode item in items)
-                //{
-                //    var noticia = new entitie.Noticia();
-                //    var titulo = item.SelectSingleNode("title");
-                //    var desc = item.SelectSingleNode("description");
-                //    var link = item.SelectSingleNode("link");
-                //    var contenido = item.SelectSingleNode("content:encoded", this.NamespaceManager);
 
-                //    noticia.Title = titulo.InnerText;
-                //    noticia.Link = link.InnerText;
-                //    noticia.Descripcion = desc.InnerText;
-                //    if (contenido != null)
-                //    {
-                //        noticia.Contenido = contenido.InnerText;
-                //    }
 
-                //    noticia.UrlImage = ExtractFirstHtmlImage(noticia.Descripcion);
-
-                //    channel.Items.Add(noticia);
-                //}
                 return channel;
 
             }
@@ -163,9 +109,9 @@ namespace ReadMagazine.Domain.Concrete
                 var indiceListaValoresW = 0;
                 var indiceListaValoresH = 0;
                 int acum = 0;
-                for (int i = totalDeNoticias - quedanNoticias; i < (totalDeNoticias - quedanNoticias) + cantidadEnEstaPagina; i++ )
+                for (int i = totalDeNoticias - quedanNoticias; i < (totalDeNoticias - quedanNoticias) + cantidadEnEstaPagina; i++)
                 {
-                    var noticia = new entitie.Noticia();
+                    entitie.Noticia noticia = new entitie.Noticia();
                     var titulo = items[i].SelectSingleNode("title");
                     var desc = items[i].SelectSingleNode("description");
                     var link = items[i].SelectSingleNode("link");
@@ -173,16 +119,21 @@ namespace ReadMagazine.Domain.Concrete
 
                     noticia.Title = titulo.InnerText;
                     noticia.Link = link.InnerText;
-                    noticia.Descripcion = desc.InnerText;
+                    noticia.Descripcion = HtmlRemoval.StripTagsCharArray( desc.InnerText);
                     if (contenido != null)
                     {
                         noticia.Contenido = contenido.InnerText;
                     }
+                    else
+                        noticia.Contenido = string.Empty;
+                    noticia.UrlImage = ExtractImages.ExtractFirstHtmlImage(desc.InnerText + noticia.Contenido);
+                    //var pepe = ExtractImages.CambiarTamanoImagen(noticia.UrlImage,683, 600);
+
 
                     if (primeroWidth == 0)
                     {
                         if (acum >= DivicionesList[indiceListaValoresH])
-                        { 
+                        {
                             indiceListaValoresH++;
                             acum = -1;
                         }
@@ -197,9 +148,10 @@ namespace ReadMagazine.Domain.Concrete
                     }
                     noticia.WidthClass = "w-" + listaValoresAtomarFinalWidth[indiceListaValoresW];
 
-                    
+
                     noticia.HeigthClass = "h-" + listaValoresAtomarFinalHeigth[indiceListaValoresH];
-                    noticia.UrlImage = ExtractFirstHtmlImage(noticia.Descripcion);
+
+
 
                     pagina.Noticias.Add(noticia);
 
@@ -247,7 +199,7 @@ namespace ReadMagazine.Domain.Concrete
                         acum = acum + valoresPosible[indiceValoresPosibleWidth];
                     }
                 }
-                
+
                 if (!tenerEncuentaContadorPrevio)
                 {
                     if (Contador != 4)
@@ -255,7 +207,7 @@ namespace ReadMagazine.Domain.Concrete
                     i = i + listaValoresAtomar.Count - 1;
                     DivicionesList.Add(dividirAnchoOAltoEn);
                 }
-                else 
+                else
                 {
                     var sumar = i >= Contador ? cantidadEnEstaPagina - i : Contador;
                     i = i + sumar - 1;

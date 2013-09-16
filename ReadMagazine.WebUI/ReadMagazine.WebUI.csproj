@@ -188,6 +188,7 @@
     <Content Include="Images\6.jpg" />
     <Content Include="Images\7.jpg" />
     <Content Include="Images\8.jpg" />
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\Bootstrap\glyphicons-halflings-white.png" />
     <Content Include="Images\Bootstrap\glyphicons-halflings.png" />
     <Content Include="Images\cover.jpg" />
@@ -246,8 +247,8 @@
     <Content Include="Views\Source\Options.cshtml" />
     <Content Include="Views\Shared\_MagazineLayoutHome.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Client\SignUp.cshtml" />
-    <Content Include="Views\Client\Login.cshtml" />
+    <Content Include="Views\Home\SignUp.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Shared\_MagazineChannel.cshtml" />
     <Content Include="Views\Channel\Index.cshtml" />

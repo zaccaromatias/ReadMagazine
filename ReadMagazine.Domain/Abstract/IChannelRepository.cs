@@ -10,6 +10,6 @@ namespace ReadMagazine.Domain.Abstract
     public interface IChannelRepository
     {
         
-       entite.ChannelRss GetNoticias(Channel channel);
+       entite.ChannelRss GetNoticias(ChannelDB channel);
     }
 }

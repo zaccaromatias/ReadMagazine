@@ -97,7 +97,6 @@
 
 	.page.cover .front .content:after,
 	.page.cover-back .back .content:after
-	
 	{
 		position: absolute;
 		top: 0px;
@@ -108,32 +107,30 @@
 		background: -webkit-linear-gradient(left, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.01) 16%,rgba(0,0,0,0) 17%,rgba(0,0,0,0) 44%,rgba(0,0,0,0.08) 60%,rgba(0,0,0,0.09) 61%,rgba(0,0,0,0.35) 100%);
 		opacity: 0.2;
 	}
+
 .page .back .outer .content:before
 {
 	position: absolute;
-		top: 0px;
-		left: 49.2%;
-		
-		
-		width: 10px;
-		height: 100%;
-		content: '';
-		
-		background: -webkit-linear-gradient(left, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.09) 16%,rgba(0,0,0,0.08) 17%,rgba(0,0,0,0) 44%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.01) 61%,rgba(0,0,0,0.25) 100%);
-		opacity: 0.3;
+	top: 0px;
+	left: 49.2%;
+	width: 10px;
+	height: 100%;
+	content: '';
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0.09) 16%,rgba(0,0,0,0.08) 17%,rgba(0,0,0,0) 44%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.01) 61%,rgba(0,0,0,0.25) 100%);
+	opacity: 0.3;
 }
 
-	.page.cover-back .back .content:after
-	{
-		left: auto;
-		right: 0px;
-		*background: -webkit-linear-gradient(left, rgba(0,0,0,0.53) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,1) 100%);
-	}
+.page.cover-back .back .content:after
+{
+	left: auto;
+	right: 0px;
+	*background: -webkit-linear-gradient(left, rgba(0,0,0,0.53) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,1) 100%);
+}
 
-	.page.cover .front .content .inner
-	{
-		padding-top: 20px;
-	}
+.page.cover .front .content .inner
+{
+	padding-top: 20px;
+}
 
 .page.cover .front .content
 {
@@ -736,3 +733,16 @@ a.f-ref
 	{
 		color: #F7683B;
 	}
+/*MODAL LOADING*/
+
+.modalCustom
+{
+	display: block;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba( 255, 255, 255, 1 ) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+}

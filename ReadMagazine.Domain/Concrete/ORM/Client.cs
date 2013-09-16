@@ -16,7 +16,7 @@ namespace ReadMagazine.Domain.Concrete.ORM
     {
         public Client()
         {
-            this.Channels = new HashSet<Channel>();
+            this.Channels = new HashSet<ChannelDB>();
         }
     
         public string UserName { get; set; }
@@ -24,6 +24,6 @@ namespace ReadMagazine.Domain.Concrete.ORM
         public string Email { get; set; }
         public int ClientId { get; set; }
     
-        public virtual ICollection<Channel> Channels { get; set; }
+        public virtual ICollection<ChannelDB> Channels { get; set; }
     }
 }

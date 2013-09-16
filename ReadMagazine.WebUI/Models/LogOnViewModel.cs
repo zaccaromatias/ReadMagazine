@@ -14,5 +14,7 @@ namespace ReadMagazine.WebUI.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public bool Remember { get; set; }
     }
 }

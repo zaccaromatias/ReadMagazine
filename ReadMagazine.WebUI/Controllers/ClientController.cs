@@ -9,6 +9,7 @@ using ReadMagazine.Domain.Entities;
 using ReadMagazine.WebUI.Infrastructure.Abstract;
 using ReadMagazine.WebUI.Models;
 using ORM = ReadMagazine.Domain.Concrete.ORM;
+using System.Web.Security;
 namespace ReadMagazine.WebUI.Controllers
 {
     public class ClientController : Controller
@@ -99,6 +100,7 @@ namespace ReadMagazine.WebUI.Controllers
                 if (clientValid != null)
                 {
                     TempData["errorUserOrPasword"] = "Logeado con exito";
+                    FormsAuthentication.SetAuthCookie(clientValid.UserName, login.Remember);
                 }
                 else 
                 {

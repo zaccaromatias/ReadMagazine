@@ -23,7 +23,7 @@
     <div class="logo">
         ReadMagazine
     </div>
-    <h1 class="left" style="text-align: right; color: #F86738;  margin: -2% 51% 15px 0px !important;">@TempData["messageError"]</h1>
+    <h1 class="left" style="text-align: right; color: #F86738; margin: -2% 51% 15px 0px !important;">@TempData["messageError"]</h1>
     <h1 class="left">Sign up and read the news <span>in your own  <a href="javascript:return false;">magazine</a></span></h1>
     <h1 class="left"><span>Flip if already registered</span></h1>
 
@@ -31,7 +31,7 @@
         <div class="span3">
 
             <h2>Sign Up</h2>
-            @using (Html.BeginForm("SignUp", "Client", FormMethod.Post, new {id="SignUp" }))
+            @using (Html.BeginForm("SignUp", "Home", FormMethod.Post, new { id = "SignUp" }))
             {
                 @Html.ValidationSummary(true)
 

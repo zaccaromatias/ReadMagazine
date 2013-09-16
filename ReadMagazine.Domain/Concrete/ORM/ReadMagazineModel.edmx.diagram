@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="f487145f50ef462a9a596b90d8294bc9" Name="Diagram1">
         <EntityTypeShape EntityType="ReadMagazineModel.Client" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ReadMagazineModel.Channel" Width="1.5" PointX="3.875" PointY="0.75" />
+        <EntityTypeShape EntityType="ReadMagazineModel.ChannelDB" Width="1.5" PointX="3.875" PointY="0.75" />
         <AssociationConnector Association="ReadMagazineModel.Channels_fk" />
         <EntityTypeShape EntityType="ReadMagazineModel.Noticia" Width="1.5" PointX="6.75" PointY="0.75" />
         <AssociationConnector Association="ReadMagazineModel.Noticias_fk" />

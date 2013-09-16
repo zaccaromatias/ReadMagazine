@@ -1,16 +1,18 @@
-﻿@model ReadMagazine.WebUI.Models.ClientExtendedViewModel
+﻿
 @{
-    ViewBag.Title = "Index";
-
+    ViewBag.Title = "ReadMagazine";
     Layout = "~/Views/Shared/_MagazineLayoutHome.cshtml";
 }
 
 
 <div class="f-page f-cover">
-    @{Html.RenderAction("Login", "Client");}
+
+    @{Html.RenderPartial("Login");}
 </div>
 <div class="f-page f-cover-back">
-    @{Html.RenderAction("SignUp", "Client");}
+    @{Html.RenderPartial("SignUp");}
 </div>
+
+
 
 

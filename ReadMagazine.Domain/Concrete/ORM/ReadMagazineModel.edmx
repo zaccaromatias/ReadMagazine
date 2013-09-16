@@ -139,14 +139,14 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="Channels" EntityType="ReadMagazineModel.Channel" />
+          <EntitySet Name="ChannelDBs" EntityType="ReadMagazineModel.ChannelDB" />
           <AssociationSet Name="Channels_fk" Association="ReadMagazineModel.Channels_fk">
             <End Role="Client" EntitySet="Clients" />
-            <End Role="Channel" EntitySet="Channels" />
+            <End Role="Channel" EntitySet="ChannelDBs" />
           </AssociationSet>
           <EntitySet Name="Noticias" EntityType="ReadMagazineModel.Noticia" />
           <AssociationSet Name="Noticias_fk" Association="ReadMagazineModel.Noticias_fk">
-            <End Role="Channel" EntitySet="Channels" />
+            <End Role="Channel" EntitySet="ChannelDBs" />
             <End Role="Noticia" EntitySet="Noticias" />
           </AssociationSet>
         </EntityContainer>
@@ -171,7 +171,7 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Channel">
+        <EntityType Name="ChannelDB">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -184,7 +184,7 @@
         </EntityType>
         <Association Name="Channels_fk">
           <End Type="ReadMagazineModel.Client" Role="Client" Multiplicity="1" />
-          <End Type="ReadMagazineModel.Channel" Role="Channel" Multiplicity="*" />
+          <End Type="ReadMagazineModel.ChannelDB" Role="Channel" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="ClientId" />
@@ -208,7 +208,7 @@
           <NavigationProperty Name="Channel" Relationship="ReadMagazineModel.Noticias_fk" FromRole="Noticia" ToRole="Channel" />
         </EntityType>
         <Association Name="Noticias_fk">
-          <End Type="ReadMagazineModel.Channel" Role="Channel" Multiplicity="1" />
+          <End Type="ReadMagazineModel.ChannelDB" Role="Channel" Multiplicity="1" />
           <End Type="ReadMagazineModel.Noticia" Role="Noticia" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Channel">
@@ -259,8 +259,8 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ReadMagazineModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ReadMagazineModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="Channels">
-            <EntityTypeMapping TypeName="ReadMagazineModel.Channel">
+          <EntitySetMapping Name="ChannelDBs">
+            <EntityTypeMapping TypeName="ReadMagazineModel.ChannelDB">
               <MappingFragment StoreEntitySet="Channels">
                 <ScalarProperty Name="UrlXml" ColumnName="UrlXml" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

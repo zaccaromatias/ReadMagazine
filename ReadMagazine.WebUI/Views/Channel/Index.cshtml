@@ -8,7 +8,18 @@
     <p>@Model.DescriptionChannel</p>
 
 </header>
+@{var ramdom = new Random();
 
+  var indicePagina = ramdom.Next(0, Model.Paginas.Count - 1);
+  var indiceNoticiaTapa = ramdom.Next(0, Model.Paginas[indicePagina].Noticias.Count);
+}
+<style type="text/css">
+    .page.cover .front .content 
+    {
+        background: #ddd url(@Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].UrlImage) no-repeat center center;
+    background-size: cover;
+    }
+</style>
 <div id="flip" class="container">
 
     <div class="f-page f-cover">
@@ -20,18 +31,14 @@
             <div class="f-cover-story">
                 @{
                     <span>
-                        @{var ramdom = new Random();
 
-                          var indicePagina = ramdom.Next(0, Model.Paginas.Count - 1);
-                          var indiceNoticiaTapa = ramdom.Next(0, Model.Paginas[indicePagina].Noticias.Count);
-                        }
                         @Html.Raw(Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].Title)
 
 
 
 
                     </span>
-                    @Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].DescripcionSoloTexto.Substring(0, 30);
+                    @*Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].DescripcionSoloTexto;*@
                 
                 }
             </div>
@@ -44,13 +51,18 @@
         <div class="f-page">
             <div class="f-title">
                 <a href="#">Previous Demo</a>
-                <h2>@Model.TituloChannel.Substring(0, 17) ...</h2>
+                <h2>@Model.TituloChannel ...</h2>
                 <a href="#">Back to the Codrops Article</a>
             </div>
             @{
             foreach (var noticia in pagina.Noticias)
             {
-                <div class="box @noticia.WidthClass @noticia.HeigthClass">
+                <div class="box @noticia.WidthClass @noticia.HeigthClass  title-top box-b-r box-b-l">
+                    @{if (!String.IsNullOrEmpty(noticia.UrlImage))
+                      {
+                        <div class="img-cont" style="background-image: url(@noticia.UrlImage)"></div>
+                      } 
+                    }
                     <h3>@noticia.Title<span>Published May 3, 2012</span></h3>
                     <p>@Html.Raw(noticia.Descripcion)</p>
                     <p>@Html.Raw(noticia.Contenido)</p>

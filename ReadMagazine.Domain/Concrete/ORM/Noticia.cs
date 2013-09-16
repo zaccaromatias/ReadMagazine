@@ -22,6 +22,6 @@ namespace ReadMagazine.Domain.Concrete.ORM
         public string Contenido { get; set; }
         public string UrlImage { get; set; }
     
-        public virtual Channel Channel { get; set; }
+        public virtual ChannelDB Channel { get; set; }
     }
 }
