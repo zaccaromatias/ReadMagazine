@@ -38,7 +38,7 @@
 
 
                     </span>
-                    @*Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].DescripcionSoloTexto;*@
+@*Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].DescripcionSoloTexto;*@
                 
                 }
             </div>
@@ -57,15 +57,22 @@
             @{
             foreach (var noticia in pagina.Noticias)
             {
-                <div class="box @noticia.WidthClass @noticia.HeigthClass  title-top box-b-r box-b-l">
+                <div class="box @noticia.WidthClass @noticia.HeigthClass  title-top box-img-left box-b-r box-b-l">
+
                     @{if (!String.IsNullOrEmpty(noticia.UrlImage))
                       {
                         <div class="img-cont" style="background-image: url(@noticia.UrlImage)"></div>
+                        
                       } 
                     }
                     <h3>@noticia.Title<span>Published May 3, 2012</span></h3>
                     <p>@Html.Raw(noticia.Descripcion)</p>
-                    <p>@Html.Raw(noticia.Contenido)</p>
+                    <div class="contenidoSoloTexto" style="display:block">
+                       @Html.Raw(noticia.ContenidoSoloTexto)
+                    </div>
+                    <div class="contenido" style="display:none">
+                        @Html.Raw(noticia.Contenido)
+                    </div>
                 </div>
                         
             }

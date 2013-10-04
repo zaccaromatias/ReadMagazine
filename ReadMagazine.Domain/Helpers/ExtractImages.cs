@@ -13,7 +13,7 @@ namespace ReadMagazine.Domain.Helpers
         #region Metodos para extraer urlImagen
         /// <summary>Default Uri</summary>
         private const string TEMPURI = "http://tempuri.org";
-        private const string STR_IMGTAG_SRC_EXP = @"<img\s+[^>]*\bsrc\s*\=\s*[\x27\x22](?<Url>[^\x27\x22]*)[\x27\x22]";
+        private const string STR_IMGTAG_SRC_EXP = @"<img\s+[^>]*\bsrc\s*\=\s*[\x27\x22](?<Url>[^\x27\x22]*)[\x27\x22]\s*[^>]*/*>";
 
         /// <summary>
         /// Extracts the first image Url from a html string
@@ -148,5 +148,15 @@ namespace ReadMagazine.Domain.Helpers
             return ((Image)vBitmap);
         }
         #endregion
+
+        public static string RemoveTagsImages(string htmlString)
+        {
+            List<string> listaDeImagenes = ExtractTagsCompletteImgFromHtml(htmlString);
+            foreach (var tagImagen in listaDeImagenes)
+            {
+                htmlString = htmlString.Replace(tagImagen,string.Empty);
+            }
+            return htmlString;
+        }
     }
 }

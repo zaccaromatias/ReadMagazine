@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using ReadMagazine.Domain.Helpers;
 
 namespace ReadMagazine.Domain.Entities
 {
@@ -40,7 +41,7 @@ namespace ReadMagazine.Domain.Entities
         {
             get 
             {
-                return HtmlRemoval.StripTagsCharArray(this.Contenido);
+                return ExtractImages.RemoveTagsImages(this.Contenido);
             }
         }
 
