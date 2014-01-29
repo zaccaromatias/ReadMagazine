@@ -37,15 +37,47 @@ namespace ReadMagazine.Domain.Entities
         public string WidthClass { get; set; }
         public string HeigthClass { get; set; }
         public string Contenido { get; set; }
-        public string ContenidoSoloTexto 
+        public string ContenidoSinImagenes
         {
-            get 
+            get
             {
-                return ExtractImages.RemoveTagsImages(this.Contenido);
+                return ExtractImages.RemoveTagsImages(this.Contenido, 1);
+            }
+        }
+        public string ContenidoSoloTexto
+        {
+            get
+            {
+                return ExtractImages.RemoveTagsImages(this.Contenido, null);
             }
         }
 
-        
+
+        public int HeigthMaxImages
+        {
+            get
+            {
+                string urlTapa;
+                var heigth = ExtractImages.ReadImagesWithMaxHeigth(this.Descripcion + this.Contenido, out urlTapa);
+                this.UrlImageTapa = urlTapa;
+                return heigth;
+            }
+
+        }
         public string UrlImage { get; set; }
+        private string _urlImageTapa;
+        public string UrlImageTapa
+        {
+            get
+            {
+                var url = ExtractImages.ExtractFirstHtmlImage(this.Descripcion + this.Contenido);
+                return url;
+            }
+            set
+            {
+                _urlImageTapa = value;
+            }
+
+        }
     }
 }

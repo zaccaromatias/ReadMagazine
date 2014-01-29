@@ -14,7 +14,7 @@ namespace ReadMagazine.Domain.Helpers
         /// <summary>Default Uri</summary>
         private const string TEMPURI = "http://tempuri.org";
         private const string STR_IMGTAG_SRC_EXP = @"<img\s+[^>]*\bsrc\s*\=\s*[\x27\x22](?<Url>[^\x27\x22]*)[\x27\x22]\s*[^>]*/*>";
-
+        private const string HEIGTH = @"height=[\x27\x22]((\d)*)[\x27\x22]";
         /// <summary>
         /// Extracts the first image Url from a html string
         /// </summary>
@@ -23,7 +23,7 @@ namespace ReadMagazine.Domain.Helpers
         /// <remarks>This method uses regular expressions,so using System.Text.RegularExpressions; must be addeed</remarks>
         public static string ExtractFirstHtmlImage(string htmlString)
         {
-            string respuesta = TEMPURI;
+            string respuesta = null;
             try
             {
                 var rgx = new Regex(
@@ -69,6 +69,52 @@ namespace ReadMagazine.Domain.Helpers
             }
             return lista;
         }
+
+        public static int ReadImagesWithMaxHeigth(string htmlString, out string urlTapaImagen)
+        {
+            var lista = ExtractImageUrisFromHtml(htmlString);
+            //var lista = ExtractTagsCompletteImgFromHtml(htmlString);
+            var max = 0;
+            var posMax = 0;
+            var posActual = -1;
+            //var rgx = new Regex(HEIGTH, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            foreach (var item in lista)
+            {
+                posActual++;
+                //var heigth = rgx.Match(item);
+                int heigth;
+                try
+                {
+                    heigth = GetHeigthOriginal(item);
+                }
+                catch (Exception)
+                {
+
+                    continue;
+                }
+
+                //var alto = Convert.ToInt32(heigth.Groups[1].Value);
+                if (heigth > max)
+                {
+                    max = heigth;
+                    posMax = posActual;
+                }
+
+            }
+
+            if (posActual != -1)
+            {
+                urlTapaImagen = lista[posMax];
+
+            }
+            else
+            {
+                urlTapaImagen = TEMPURI;
+            }
+            return max;
+        }
+
+
 
         public static List<string> ExtractTagsCompletteImgFromHtml(string htmlString)
         {
@@ -147,15 +193,31 @@ namespace ReadMagazine.Domain.Helpers
             ((Image)vBitmap).Save(@"c:\imagenCopia.jpg"); ;
             return ((Image)vBitmap);
         }
+
+        public static int GetHeigthOriginal(string urlImage)
+        {
+            Image imagen = DownloadImage(urlImage);
+            return imagen.Height;
+        }
         #endregion
 
-        public static string RemoveTagsImages(string htmlString)
+        public static string RemoveTagsImages(string htmlString, int? cantidadDeImgenesARemover)
         {
+            if (String.IsNullOrEmpty(htmlString))
+                return string.Empty;
             List<string> listaDeImagenes = ExtractTagsCompletteImgFromHtml(htmlString);
-            foreach (var tagImagen in listaDeImagenes)
+            if (listaDeImagenes.Count == 0)
+                return htmlString;
+            cantidadDeImgenesARemover = cantidadDeImgenesARemover == null ? listaDeImagenes.Count : cantidadDeImgenesARemover;
+            for (int i = 0; i < cantidadDeImgenesARemover; i++)
             {
-                htmlString = htmlString.Replace(tagImagen,string.Empty);
+                htmlString = htmlString.Replace(listaDeImagenes[i], string.Empty);
             }
+            //foreach (var tagImagen in listaDeImagenes)
+            //{
+            //    htmlString = htmlString.Replace(tagImagen,string.Empty);
+
+            //}
             return htmlString;
         }
     }

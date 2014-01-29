@@ -31,7 +31,7 @@ namespace ReadMagazine.WebUI.Controllers
                     break;
                 case "3": urlXml = "http://feeds.feedburner.com/CssTricks";
                     break;
-                case "4": urlXml = "http://www.facebook.com/feeds/notifications.php?id=1534920356&viewer=1534920356&key=AWhGxoInZ4IDLSRT&format=rss20";
+                case "4": urlXml = "http://radioeltrebol.com.ar/feed";
                     break;
                 case "5": urlXml = "http://www.lacapital.com.ar/rss/home.xml";
                     break;

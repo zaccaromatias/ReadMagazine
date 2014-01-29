@@ -8,17 +8,43 @@
     <p>@Model.DescriptionChannel</p>
 
 </header>
-@{var ramdom = new Random();
 
-  var indicePagina = ramdom.Next(0, Model.Paginas.Count - 1);
-  var indiceNoticiaTapa = ramdom.Next(0, Model.Paginas[indicePagina].Noticias.Count);
-}
 <style type="text/css">
     .page.cover .front .content 
     {
-        background: #ddd url(@Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].UrlImage) no-repeat center center;
+        background: #ddd url(@Model.NoticiaTapa.UrlImageTapa) no-repeat center center;
     background-size: cover;
     }
+    .page.cover .gradient.lower 
+    {
+        bottom: 0;
+        background-image: -webkit-linear-gradient(bottom,rgba(218, 217, 231, 0.6),rgba(0,0,0,0) 100%);
+        background-image: -moz-linear-gradient(bottom,rgba(218, 217, 231, 0.6),rgba(0,0,0,0) 100%);
+        background-image: -ms-linear-gradient(bottom,rgba(218, 217, 231, 0.6),rgba(0,0,0,0) 100%);
+        background-image: linear-gradient(bottom,rgba(218, 217, 231, 0.6),rgba(0,0,0,0) 100%);
+    }
+    .page.cover .gradient.upper 
+    {
+        top: 0;
+        background-image: -webkit-linear-gradient(top,rgba(58, 157, 248, 0.5),rgba(0,0,0,0) 100%);
+        background-image: -moz-linear-gradient(top,rgba(58, 157, 248, 0.5),rgba(0,0,0,0) 100%);
+        background-image: -ms-linear-gradient(top,rgba(58, 157, 248, 0.5),rgba(0,0,0,0) 100%);
+        background-image: linear-gradient(top,rgba(58, 157, 248, 0.5),rgba(0,0,0,0) 100%);
+    }
+
+    .page.cover .gradient 
+    {
+        position: absolute;
+        width: 100%;
+        height: 600px;
+        z-index: 1;
+        opacity: 1;
+    }
+    .page.cover *:not(.flip-hint) {
+      
+        z-index: 3;
+    }
+    
 </style>
 <div id="flip" class="container">
 
@@ -32,7 +58,7 @@
                 @{
                     <span>
 
-                        @Html.Raw(Model.Paginas[indicePagina].Noticias[indiceNoticiaTapa].Title)
+                        @Html.Raw(Model.NoticiaTapa.Title)
 
 
 
@@ -42,6 +68,7 @@
                 
                 }
             </div>
+            
         </div>
         <div class="f-cover-flip">&lt; Flip</div>
     </div>
@@ -59,19 +86,19 @@
             {
                 <div class="box @noticia.WidthClass @noticia.HeigthClass  title-top box-img-left box-b-r box-b-l">
 
-                    @{if (!String.IsNullOrEmpty(noticia.UrlImage))
+                    @{if (!String.IsNullOrEmpty(noticia.UrlImage) && noticia.UrlImage != "http://tempuri.org")
                       {
                         <div class="img-cont" style="background-image: url(@noticia.UrlImage)"></div>
                         
                       } 
                     }
                     <h3>@noticia.Title<span>Published May 3, 2012</span></h3>
-                    <p>@Html.Raw(noticia.Descripcion)</p>
-                    <div class="contenidoSoloTexto" style="display:block">
-                       @Html.Raw(noticia.ContenidoSoloTexto)
+                    <p>@Html.Raw(noticia.DescripcionSoloTexto)</p>
+                    <div class="contenidoSoloTexto" style="display: block">
+                        @Html.Raw(noticia.ContenidoSoloTexto)
                     </div>
-                    <div class="contenido" style="display:none">
-                        @Html.Raw(noticia.Contenido)
+                    <div class="contenido" style="display: none">
+                        @Html.Raw(noticia.ContenidoSinImagenes)
                     </div>
                 </div>
                         
@@ -86,25 +113,4 @@
         </div>
     </div>
 </div>
-@*<fieldset>
 
-
-    <div class="display-label">LinkChannel</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LinkChannel)
-    </div>
-
-    <div class="display-label">UrlImage</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.UrlImage)
-    </div>
-
-    <div class="display-label">DescriptionChannel</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DescriptionChannel)
-    </div>
-</fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@

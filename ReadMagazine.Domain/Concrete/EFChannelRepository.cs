@@ -119,7 +119,7 @@ namespace ReadMagazine.Domain.Concrete
 
                     noticia.Title = titulo.InnerText;
                     noticia.Link = link.InnerText;
-                    noticia.Descripcion = HtmlRemoval.StripTagsCharArray( desc.InnerText);
+                    noticia.Descripcion =  desc.InnerText;
                     if (contenido != null)
                     {
                         noticia.Contenido = contenido.InnerText;
