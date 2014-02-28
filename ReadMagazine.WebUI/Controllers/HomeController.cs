@@ -80,13 +80,16 @@ namespace ReadMagazine.Controllers
                 if (clientValid != null)
                 {
                     TempData["errorUserOrPasword"] = "Logeado con exito";
-                    FormsAuthentication.SetAuthCookie(clientValid.UserName, login.Remember);
+                    FormsAuthentication.SetAuthCookie(clientValid.UserName, login.Remember, Membership.ApplicationName);
+                    Session["CurrentUser"] = clientValid;
+                    return RedirectToAction("Channels", "Channel");
                 }
                 else
                 {
                     TempData["errorUserOrPasword"] = "UserName or Password Incorrect!";
+                    return View("index", clientViewModelAndLogOnViewModel);
                 }
-                return View("index", clientViewModelAndLogOnViewModel);
+
             }
             else
             {

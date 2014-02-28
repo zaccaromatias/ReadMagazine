@@ -199,8 +199,8 @@
     <Content Include="Images\ReadMagazine\libroApaisado.jpg" />
     <Content Include="Images\ReadMagazine\news.jpg" />
     <Content Include="Images\ReadMagazine\sosteniendo-revista.jpg" />
-    <Content Include="Scripts\Bootstrap\bootstrap.js" />
-    <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Bootstrap\z_bootstrap.js" />
+    <Content Include="Scripts\Bootstrap\z_bootstrap.min.js" />
     <Content Include="Scripts\core.string.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -255,9 +255,14 @@
     <Content Include="Views\Client\Index.cshtml" />
     <Content Include="Views\Shared\_MagazineChannel.cshtml" />
     <Content Include="Views\Channel\Index.cshtml" />
+    <Content Include="Views\Channel\Channels.cshtml" />
+    <Content Include="Views\Shared\MagazineLayoutTapaAndCover.cshtml" />
+    <Content Include="Views\Channel\MannageChannels.cshtml" />
+    <Content Include="Views\Channel\ChannelsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helper\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

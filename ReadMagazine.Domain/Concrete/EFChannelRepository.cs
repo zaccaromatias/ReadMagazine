@@ -9,11 +9,27 @@ using ReadMagazine.Domain.Concrete.ORM;
 using ReadMagazine.Domain.Entities;
 using entitie = ReadMagazine.Domain.Entities;
 using ReadMagazine.Domain.Helpers;
+using System.Linq.Expressions;
 
 namespace ReadMagazine.Domain.Concrete
 {
     public class EFChannelRepository : IChannelRepository
     {
+        #region Contructor
+
+        public EFChannelRepository()
+        {
+            this.CreateEntity = e => new Channel()
+            {
+                Id = e.Id,
+                Client = e.Client,
+                Name = e.Name,
+                UrlXml = e.UrlXml
+            };
+        }
+
+        #endregion
+        private Expression<Func<ChannelDB, Channel>> CreateEntity;
         private ReadMagazineEntities context = new ReadMagazineEntities();
         private XmlNamespaceManager NamespaceManager { get; set; }
         private static int Contador { get; set; }
@@ -119,7 +135,7 @@ namespace ReadMagazine.Domain.Concrete
 
                     noticia.Title = titulo.InnerText;
                     noticia.Link = link.InnerText;
-                    noticia.Descripcion =  desc.InnerText;
+                    noticia.Descripcion = desc.InnerText;
                     if (contenido != null)
                     {
                         noticia.Contenido = contenido.InnerText;
@@ -221,6 +237,23 @@ namespace ReadMagazine.Domain.Concrete
                 acum = 0;
             }
             return listaValoresAtomarFinal;
+        }
+
+        #endregion
+
+
+
+        #region IChannelRepository Members
+
+
+        List<Channel> IChannelRepository.GetChannelsByUser(int clientId)
+        {
+            var channels = context.ChannelDBs
+                .Where(c=>c.ID_Client== clientId)
+                .Select<ChannelDB,Channel>(this.CreateEntity)
+                
+                .ToList();
+            return channels;
         }
 
         #endregion

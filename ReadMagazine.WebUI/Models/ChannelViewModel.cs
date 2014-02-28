@@ -8,5 +8,6 @@ namespace ReadMagazine.WebUI.Models
 {
     public class ChannelViewModel: ChannelRss
     {
+        public List<Channel> Channels { get; set; }
     }
 }

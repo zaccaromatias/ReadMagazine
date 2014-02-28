@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Channels";
+    Layout = "~/Views/Shared/MagazineLayoutTapaAndCover.cshtml";
+}
+<header class="main-title">
+    <h1>Welcome to, <strong>ReadMagazine</strong></h1>
+    <p>Swipe or drag to flip the pages for  add your fedss</p>
+
+</header>
+<header class="main-title" style="left: 50%">
+    <h1>Add your fedds and read your favorite <strong>news</strong></h1>
+    <p>Swipe or drag to flip the pages for start reading your news</p>
+
+</header>
+<div id="flip" class="container">
+
+    <div class="f-page f-cover">
+        @{Html.RenderPartial("ChannelsList");};
+    </div>
+    <div class="f-page f-cover-back">
+        @{Html.RenderPartial("MannageChannels");};
+
+    </div>
+
+
+</div>
+
+
+
+<footer class="main-title-fotter">
+    <p>Best viewed in a Webkit browser (Safari, Chrome)</p>
+    <p><strong>www.ReadMagazine.com.ar : ReadMagazine © 2013 | web: [popo] | arte: popo</strong></p>
+</footer>
+

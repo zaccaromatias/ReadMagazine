@@ -1,0 +1,176 @@
+﻿@model ReadMagazine.WebUI.Models.ChannelViewModel
+<style>
+    #SignUp .field-validation-error
+    {
+        color: #F7683B !important;
+        text-transform: none !important;
+        font-size: 12px !important;
+        margin-top: -20px !important;
+        line-height: 12px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .text-box
+    {
+        margin-top: -25px !important;
+    }
+
+    .popover-title
+    {
+        color: red;
+        text-transform: none;
+    }
+
+    .popover-content
+    {
+        text-transform: none;
+        color: red;
+    }
+
+    #field
+    {
+        max-height: 276px;
+        overflow-y: auto;
+        width: 342px;
+        padding-right: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+<div class="cover-elements">
+    <div class="logo">
+        +Fedss
+    </div>
+    <h1 class="left" style="text-align: right; color: #F86738; margin: -2% 51% 15px 0px !important;">@TempData["messageError"]</h1>
+    <h1 class="left">Add your fedss <span>and read your favorite news</span></h1>
+    <h1 class="left"><span>in a <a href="javascript:return false;">magazine</a></span></h1>
+    <div class="f-cover-story" style="left: 328px; bottom: 10px">
+        <div class="span3">
+            <h2>Copy URL the fedss </h2>
+            <div class="row">
+                <input type="hidden" name="count" id="count" value="@ViewBag.Total" />
+                <div class="control-group" id="fields">
+
+                    <div class="controls" id="profs">
+                        <form class="input-append" action="/Channel/Save" method="post">
+                            <div id="field">
+                                @{
+                                    for (int i = 0; i < Model.Channels.Count; i++)
+                                    {
+                                    
+                                    <div>
+                                        <input autocomplete="off" class="input span4" id="field+@i" name="field+@i" type="text" placeholder="URL " data-items="2" value="@Model.Channels[i].UrlXml" />
+                                        <button  id="remove+@i" class="btn btn-danger remove-me">-</button>
+                                        <br />
+                                    </div>    
+
+                                    }                                    
+                                }
+                                <div>
+                                    <input autocomplete="off" class="input span4" id="field1" name="prof1" type="text" placeholder="URL" data-items="2" />
+                                    <button id="add" class="btn add-more" type="button">+</button>
+                                </div>
+                            </div>
+                            <button class="btn-info btn pull-right" type="submit">Save</button>
+                        </form>
+                        <br>
+
+                        <label class="control-label" for="field1">Press + to add another  fedss</label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="spanLeft">Enjoy the news <strong>your way</strong> </span>
+
+
+</div>
+<div class="f-cover-flip-left">Read Fedss ></div>
+<div style="width: 25%; margin-top: 20%">
+    @{
+        var errors = (List<string>)TempData["ModelErrors"];
+        if (errors != null && errors.Count() > 0)
+        {
+
+            foreach (var error in errors)
+            {
+        <div class="alert alert-error" style="font-size: 12px; line-height: 13px; text-transform: none; margin-top: 5px;">
+            <a class="close" data-dismiss="alert" href="#">x</a>@error
+        </div>
+            }
+
+        }
+    }
+</div>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function () {
+        var next = @ViewBag.Total
+        $(".add-more").click(function (e) {
+
+            e.preventDefault();
+            var addto = $(this).prevAll("input");
+            var valor = $(this).prevAll("input").val();
+            var contador = parseInt($("#count").val());
+            $(addto).popover('destroy');
+            if (valor === "" || contador === 5) {
+
+                if (contador === 5) {
+
+                    $(addto).popover({
+                        title: 'Limit',
+                        content: 'Not more than 5 channels',
+                        placement: 'left',
+                        delay: { show: 500, hide: 100 }
+                    });
+                }
+                else {
+                    $(addto).popover({
+                        title: 'Requerid',
+                        placement: 'left',
+                        delay: { show: 500, hide: 100 },
+                        content: 'Please copy url fedd'
+                    });
+
+                }
+                $(addto).popover('show');
+                return false;
+            }
+            var addRemove = $(this).prevAll("input");
+            next = next + 1;
+            var newIn = '<div><input autocomplete="off" class="input form-control span4" id="field' + next + '" name="field' + next + '" type="text" placeholder="URL">';
+            var newInput = $(newIn);
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div>';
+            var removeButton = $(removeBtn);
+            $(addto).after(newInput);
+            $(addRemove).after(removeButton);
+            newInput.children().after($("#add"));
+
+            $("#field").animate({ scrollTop: $("#field").height() });
+            $("#count").val(contador + 1);
+
+
+            $('.remove-me').click(function (e) {
+                e.preventDefault();
+                $(this).prevAll("input").css("text-decoration", "line-through");
+                $(this).prevAll("input").attr("disabled", "disabled");
+                var contador = parseInt($("#count").val());
+                $("#count").val(contador - 1);
+            });
+        });
+
+
+
+        $('.remove-me').click(function (e) {
+            e.preventDefault();
+            $(this).prevAll("input").css("text-decoration", "line-through");
+            $(this).prevAll("input").attr("disabled", "disabled");
+            var contador = parseInt($("#count").val());
+            $("#count").val(contador - 1);
+        });
+
+    });
+
+</script>

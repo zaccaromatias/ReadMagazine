@@ -23,6 +23,8 @@ namespace ReadMagazine.Domain.Concrete.ORM
         public int ID_Client { get; set; }
         public string Name { get; set; }
         public string UrlXml { get; set; }
+        public int Order { get; set; }
+        public int MaxItems { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual ICollection<Noticia> Noticias { get; set; }

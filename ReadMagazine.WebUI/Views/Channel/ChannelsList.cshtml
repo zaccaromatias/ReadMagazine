@@ -1,0 +1,38 @@
+﻿@model ReadMagazine.WebUI.Models.ChannelViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Channel List";
+}
+
+<style>
+    #channels .field-validation-error
+    {
+        color: #F7683B !important;
+        text-transform: none !important;
+        font-size: 12px !important;
+        line-height: 12px !important;
+        margin-bottom: 10px !important;
+    }
+</style>
+<div class="cover-elements">
+    <div class="logo">
+        Fedss
+    </div>
+    <h1 style="color: #F86738; margin: 0 0 0 30%;">@TempData["message"]</h1>
+    <h1>Select your magazines<span>and read your favorite <a href="javascript: return false;">news</a></span></h1>
+    <h1><span>Flips to add more +fedss</span></h1>
+    <div class="f-cover-story">
+        <span>Click and read!</span>
+        <div id="channels">
+            <ul>
+                @{
+                    foreach (var channel in Model.Channels)
+                    {
+                    <li>@channel.Name</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="f-cover-flip">&lt; +Fedss</div>

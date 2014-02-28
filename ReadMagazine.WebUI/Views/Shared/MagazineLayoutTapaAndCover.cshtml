@@ -38,28 +38,12 @@
 </head>
 
 <body>
-    <div class="modalCustom"><!-- Place at bottom of page --></div>
-    <header class="main-title">
-        @{Html.RenderAction("Options", "Source");}
-
-    </header>
-    <header class="main-title" style="left: 50%">
-        <h1>Experimental Page Layout <strong>Inspired by Flipboard</strong></h1>
-        <p>Swipe or drag to flip the pages, click to open items </p>
-        <p><strong>Best viewed in a Webkit browser (Safari, Chrome)</strong></p>
-    </header>
-    <div id="flip" class="container">
-
-        @RenderBody()
-
-
+    <div class="modalCustom">
+        <!-- Place at bottom of page -->
     </div>
+    @RenderBody()
 
 
-    <footer class="main-title-fotter">
-        <p>Best viewed in a Webkit browser (Safari, Chrome)</p>
-        <p><strong>www.ReadMagazine.com.ar : ReadMagazine © 2013 | web: [popo] | arte: popo</strong></p>
-    </footer>
 
     @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>*@
     <script type="text/javascript">
@@ -83,7 +67,7 @@
             }
         });
 
-		</script>
+    </script>
 
 
 </body>

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ReadMagazine.Domain.Abstract;
 using ReadMagazine.Domain.Concrete.ORM;
+using ReadMagazine.WebUI.Models;
 
 namespace ReadMagazine.WebUI.Controllers
 {
     public class ChannelController : Controller
     {
         private IChannelRepository _channerlRepository;
-        //
-        // GET: /Channel/
+
 
         public ChannelController(IChannelRepository repository)
         {
@@ -24,8 +25,8 @@ namespace ReadMagazine.WebUI.Controllers
             ViewBag.id = id;
             var urlXml = string.Empty;
             switch (id)
-            {   
-                case "1": urlXml="http://feeds.feedburner.com/redusers/internacional";
+            {
+                case "1": urlXml = "http://feeds.feedburner.com/redusers/internacional";
                     break;
                 case "2": urlXml = "http://eltreboldigital.com.ar/rss/ult_noticias.xml";
                     break;
@@ -47,6 +48,35 @@ namespace ReadMagazine.WebUI.Controllers
             var model = _channerlRepository.GetNoticias(channel);
             return View(model);
         }
+
+        public ActionResult Channels()
+        {
+            var currentUser = Session["CurrentUser"] as Client;
+            if (currentUser == null)
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Home", "Index");
+            }
+            ChannelViewModel model = new ChannelViewModel();
+            model.Channels = _channerlRepository.GetChannelsByUser(currentUser.ClientId);
+            ViewBag.Total = model.Channels.Count;
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Save(ChannelViewModel model)
+        {
+            var pepe = Request["post"];
+            //if (ModelState.IsValid)
+            //{
+            //    if (model.Channels.Any(c => String.IsNullOrEmpty(c.UrlXml)))
+            //        TempData["errorUserOrPasword"] = "Canales vacios";
+            //    return View("Channels", model);
+            //}
+            return View("Channels", model);
+
+        }
+
 
     }
 }

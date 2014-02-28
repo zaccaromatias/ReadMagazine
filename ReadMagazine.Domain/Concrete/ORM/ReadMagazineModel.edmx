@@ -26,6 +26,8 @@
           <Property Name="ID_Client" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="UrlXml" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Order" Type="int" Nullable="false" />
+          <Property Name="MaxItems" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Clients">
           <Key>
@@ -181,6 +183,8 @@
           <Property Type="String" Name="UrlXml" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Client" Relationship="ReadMagazineModel.Channels_fk" FromRole="Channel" ToRole="Client" />
           <NavigationProperty Name="Noticias" Relationship="ReadMagazineModel.Noticias_fk" FromRole="Channel" ToRole="Noticia" />
+          <Property Type="Int32" Name="Order" Nullable="false" />
+          <Property Type="Int32" Name="MaxItems" Nullable="false" />
         </EntityType>
         <Association Name="Channels_fk">
           <End Type="ReadMagazineModel.Client" Role="Client" Multiplicity="1" />
@@ -262,6 +266,8 @@
           <EntitySetMapping Name="ChannelDBs">
             <EntityTypeMapping TypeName="ReadMagazineModel.ChannelDB">
               <MappingFragment StoreEntitySet="Channels">
+                <ScalarProperty Name="MaxItems" ColumnName="MaxItems" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
                 <ScalarProperty Name="UrlXml" ColumnName="UrlXml" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID_Client" ColumnName="ID_Client" />

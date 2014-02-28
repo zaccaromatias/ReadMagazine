@@ -52,29 +52,15 @@ namespace ReadMagazine.WebUI.Controllers
                     return View("index", clientViewModelAndLogOnViewModel);
                     //throw;
                 }
-                
+
                 TempData["message"] = string.Format("{0} is now a member of ReadMagazine!", client.UserName);
                 ViewBag.Page = "0";
                 return View("index", clientViewModelAndLogOnViewModel);
             }
             else
             {
-                //if (TempData["ModelErrors"] == null)
-                //    TempData.Add("ModelErrors", new List<string>());
-                //foreach (var obj in ModelState.Values)
-                //{
-                //    foreach (var error in obj.Errors)
-                //    {
-                //        if (!string.IsNullOrEmpty(error.ErrorMessage))
-                //            ((List<string>)TempData["ModelErrors"]).Add(error.ErrorMessage);
-                //    }
-                //}
 
-                //Url.Action("Index", new { client = clientExtended, page = 1 });
-                //var url = Url.Action("index", new { client = clientExtended, page = 1 });
-                //return RedirectToAction("index",new {client=clientExtended,page=1 });
                 ViewBag.Page = "1";
-                //return View("index", clientExtended);
                 return View("index", clientViewModelAndLogOnViewModel);
             }
 
@@ -87,7 +73,7 @@ namespace ReadMagazine.WebUI.Controllers
             _clientRepository = repository;
         }
 
-       
+
 
         [HttpPost]
         public ActionResult Login(ClientViewModelAndLogOnViewModel clientViewModelAndLogOnViewModel)
@@ -101,14 +87,17 @@ namespace ReadMagazine.WebUI.Controllers
                 {
                     TempData["errorUserOrPasword"] = "Logeado con exito";
                     FormsAuthentication.SetAuthCookie(clientValid.UserName, login.Remember);
+                    return RedirectToAction("channels", "channel");
                 }
-                else 
+                else
                 {
                     TempData["errorUserOrPasword"] = "UserName or Password Incorrect!";
+                    return View("index", clientViewModelAndLogOnViewModel);
                 }
-                return View("index", clientViewModelAndLogOnViewModel);
+
+
             }
-            else 
+            else
             {
                 ViewBag.Page = "0";
                 return View("index", clientViewModelAndLogOnViewModel);
