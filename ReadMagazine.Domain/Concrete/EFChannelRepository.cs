@@ -22,7 +22,7 @@ namespace ReadMagazine.Domain.Concrete
             this.CreateEntity = e => new Channel()
             {
                 Id = e.Id,
-                Client = e.Client,
+                //Client = e.Client,
                 Name = e.Name,
                 UrlXml = e.UrlXml
             };

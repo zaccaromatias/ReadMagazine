@@ -24,9 +24,9 @@ namespace ReadMagazine.Domain.Entities
         public string UrlXml { get; set; }
 
         //[Required(ErrorMessage = "Please enter a Client")]
-        public virtual Client Client { get; set; }
+        //public virtual Client Client { get; set; }
 
         //[Required(ErrorMessage = "Please enter a Client")]
-        public virtual ICollection<Noticia> Noticias { get; set; }
+        //public virtual ICollection<Noticia> Noticias { get; set; }
     }
 }

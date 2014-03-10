@@ -1,0 +1,13 @@
+﻿@model ReadMagazine.WebUI.Models.User
+@{
+    ViewBag.Title = "Prueba";
+    Layout = "~/Views/Shared/_comun.cshtml";
+}
+
+<h2>Prueba</h2>
+
+@using (Html.BeginForm())
+{ 
+ 
+    @Html.EditorForModel();
+}

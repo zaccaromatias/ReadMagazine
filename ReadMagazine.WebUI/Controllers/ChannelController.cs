@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using ReadMagazine.Domain.Abstract;
 using ReadMagazine.Domain.Concrete.ORM;
+using ReadMagazine.Domain.Entities;
 using ReadMagazine.WebUI.Models;
 
 namespace ReadMagazine.WebUI.Controllers
@@ -40,6 +41,8 @@ namespace ReadMagazine.WebUI.Controllers
                     break;
                 case "7": urlXml = "http://clarin.feedsportal.com/c/33088/f/577681/index.rss";
                     break;
+                case "8": urlXml = "http://www.futbolparatodos.com.ar/feed/";
+                    break;
                 default:
                     break;
             }
@@ -59,24 +62,22 @@ namespace ReadMagazine.WebUI.Controllers
             }
             ChannelViewModel model = new ChannelViewModel();
             model.Channels = _channerlRepository.GetChannelsByUser(currentUser.ClientId);
-            ViewBag.Total = model.Channels.Count;
+            ViewBag.Total = model.Channels.Count();
             return View(model);
         }
 
+       
+
         [HttpPost]
-        public ActionResult Save(ChannelViewModel model)
+        public ActionResult Save(IEnumerable<Channel> model)
         {
-            var pepe = Request["post"];
-            //if (ModelState.IsValid)
-            //{
-            //    if (model.Channels.Any(c => String.IsNullOrEmpty(c.UrlXml)))
-            //        TempData["errorUserOrPasword"] = "Canales vacios";
-            //    return View("Channels", model);
-            //}
-            return View("Channels", model);
+            
+            return Json(new { msg = "llamas"});
+            
 
         }
 
 
     }
+    
 }

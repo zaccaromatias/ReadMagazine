@@ -259,6 +259,8 @@
     <Content Include="Views\Shared\MagazineLayoutTapaAndCover.cshtml" />
     <Content Include="Views\Channel\MannageChannels.cshtml" />
     <Content Include="Views\Channel\ChannelsList.cshtml" />
+    <Content Include="Views\Shared\_comun.cshtml" />
+    <Content Include="Views\Channel\Prueba.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

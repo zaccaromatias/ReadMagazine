@@ -6,8 +6,12 @@ using ReadMagazine.Domain.Entities;
 
 namespace ReadMagazine.WebUI.Models
 {
-    public class ChannelViewModel: ChannelRss
+    public class ChannelViewModel : ChannelRss
     {
-        public List<Channel> Channels { get; set; }
+        public IEnumerable<Channel> Channels { get; set; }
+        public int Numero { get; set; }
+        
     }
+
+   
 }

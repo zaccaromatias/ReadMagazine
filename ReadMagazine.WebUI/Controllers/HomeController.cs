@@ -27,6 +27,7 @@ namespace ReadMagazine.Controllers
 
         public ViewResult Index()
         {
+            ViewBag.Page = "0";
             return View();
         }
 

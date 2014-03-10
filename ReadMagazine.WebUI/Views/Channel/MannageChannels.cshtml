@@ -31,8 +31,7 @@
     {
         max-height: 276px;
         overflow-y: auto;
-        width: 342px;
-        padding-right: 5px;
+        padding-right: 20px;
         margin-bottom: 5px;
     }
 </style>
@@ -43,7 +42,7 @@
     <h1 class="left" style="text-align: right; color: #F86738; margin: -2% 51% 15px 0px !important;">@TempData["messageError"]</h1>
     <h1 class="left">Add your fedss <span>and read your favorite news</span></h1>
     <h1 class="left"><span>in a <a href="javascript:return false;">magazine</a></span></h1>
-    <div class="f-cover-story" style="left: 328px; bottom: 10px">
+    <div class="f-cover-story" style="left: 204px; bottom: 10px">
         <div class="span3">
             <h2>Copy URL the fedss </h2>
             <div class="row">
@@ -51,26 +50,31 @@
                 <div class="control-group" id="fields">
 
                     <div class="controls" id="profs">
-                        <form class="input-append" action="/Channel/Save" method="post">
+                        <form class="input-append" id="mannager" action="/Channel/Save" method="post">
                             <div id="field">
+
                                 @{
-                                    for (int i = 0; i < Model.Channels.Count; i++)
+                                    for (int i = 0; i < ViewBag.Total; i++)
                                     {
                                     
                                     <div>
-                                        <input autocomplete="off" class="input span4" id="field+@i" name="field+@i" type="text" placeholder="URL " data-items="2" value="@Model.Channels[i].UrlXml" />
-                                        <button  id="remove+@i" class="btn btn-danger remove-me">-</button>
+                                        <input autocomplete="off" class="input span2 name" id="fieldName+@i" name="fieldName+@i" type="text" placeholder="Name" data-items="2" value="@Model.Channels.ElementAt(i).Name" />
+                                        <input autocomplete="off" class="input span4 url" id="field+@i" name="field+@i" type="text" placeholder="URL" data-items="2" value="@Model.Channels.ElementAt(i).UrlXml" />
+                                        <button  id="remove+@i" class="btn btn-danger remove-me" type="button">-</button>
                                         <br />
                                     </div>    
 
                                     }                                    
                                 }
                                 <div>
-                                    <input autocomplete="off" class="input span4" id="field1" name="prof1" type="text" placeholder="URL" data-items="2" />
+                                    <input autocomplete="off" class="input span2 name" id="field1Name" name="fieldName" type="text" placeholder="Name" data-items="2" />
+                                    <input autocomplete="off" class="input span4 url" id="field1" name="prof1" type="text" placeholder="URL" data-items="2" />
                                     <button id="add" class="btn add-more" type="button">+</button>
                                 </div>
                             </div>
-                            <button class="btn-info btn pull-right" type="submit">Save</button>
+                            <button class="btn-info btn pull-right save" id="save" type="submit">Save</button>
+
+
                         </form>
                         <br>
 
@@ -81,11 +85,11 @@
             </div>
         </div>
     </div>
-    <span class="spanLeft">Enjoy the news <strong>your way</strong> </span>
+
 
 
 </div>
-<div class="f-cover-flip-left">Read Fedss ></div>
+<div class="f-cover-flip-left">Read></div>
 <div style="width: 25%; margin-top: 20%">
     @{
         var errors = (List<string>)TempData["ModelErrors"];
@@ -111,15 +115,17 @@
         $(".add-more").click(function (e) {
 
             e.preventDefault();
-            var addto = $(this).prevAll("input");
-            var valor = $(this).prevAll("input").val();
+            var addto = $(this).prevAll(".url");
+            var inputName = $(this).prevAll(".name");
+            var valor = $(this).prevAll(".url").val();
+            var valorNombre = $(this).prevAll(".name").val();
             var contador = parseInt($("#count").val());
-            $(addto).popover('destroy');
-            if (valor === "" || contador === 5) {
+            $(inputName).popover('destroy');
+            if (valor === "" || valorNombre == "" || contador === 5) {
 
                 if (contador === 5) {
-
-                    $(addto).popover({
+                    debugger;
+                    $(inputName).popover({
                         title: 'Limit',
                         content: 'Not more than 5 channels',
                         placement: 'left',
@@ -127,29 +133,33 @@
                     });
                 }
                 else {
-                    $(addto).popover({
+                    $(inputName).popover({
                         title: 'Requerid',
                         placement: 'left',
                         delay: { show: 500, hide: 100 },
-                        content: 'Please copy url fedd'
+                        content: 'Please input Name and Url'
                     });
 
                 }
-                $(addto).popover('show');
+                $(inputName).popover('show');
+                $(inputName).focus();
                 return false;
             }
-            var addRemove = $(this).prevAll("input");
+            var addRemove = $(this).prevAll(".url");
             next = next + 1;
-            var newIn = '<div><input autocomplete="off" class="input form-control span4" id="field' + next + '" name="field' + next + '" type="text" placeholder="URL">';
+            var newIn = '<div>' +
+                '<input autocomplete="off" class="input form-control span2 name" id="fieldName' + next + '" name="fieldName' + next + '" type="text" placeholder="Name">' +
+                '<input autocomplete="off" class="input form-control span4 url" id="field' + next + '" name="field' + next + '" type="text" placeholder="URL">';
             var newInput = $(newIn);
-            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div>';
+            var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" type="button" >-</button></div>';
             var removeButton = $(removeBtn);
             $(addto).after(newInput);
             $(addRemove).after(removeButton);
-            newInput.children().after($("#add"));
+            newInput.last().children(".url").after($("#add"));
 
             $("#field").animate({ scrollTop: $("#field").height() });
             $("#count").val(contador + 1);
+            newInput.last().children(".name").focus();
 
 
             $('.remove-me').click(function (e) {
@@ -170,6 +180,41 @@
             var contador = parseInt($("#count").val());
             $("#count").val(contador - 1);
         });
+
+        $(".save").click(function (e) {
+            e.preventDefault();
+            var inputUrlCanales = $("#mannager .url");
+            var Channel = [];
+            for (var i = 0; i < inputUrlCanales.length - 1; i++) {
+                Channel[i] = {
+                    Name: 'RedUser',
+                    UrlXml: $(inputUrlCanales[i]).val().toString()
+                };
+                alert(Channel[i].UrlXml + " | " + Channel[i].Name);
+
+            }
+            var model = { model: Channel };
+            $.ajax({
+                type: "POST",
+                url: "/Channel/Save",
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+
+                success: function (respuesta) {
+                    if (respuesta) {
+                        alert(respuesta.msg);
+                    }
+                    else {
+                        alert("Error");
+                    }
+                },
+                dataType: "json",
+                traditional: true
+            });
+
+        });
+
+
 
     });
 
