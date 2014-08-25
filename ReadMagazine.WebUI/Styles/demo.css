@@ -59,6 +59,13 @@ a
 		font-weight: 300;
 		color: #777;
 	}
+	.main-title h3, main-title h2, main-title h4, main-title h5, main-title h6, main-title-right h2, main-title-right h3, main-title-right h4, main-title-right h5
+	{
+		
+		
+		font-weight: 300;
+		color: #777;
+	}
 
 		.main-title h1 strong , main-title-right h1 strong
 		{

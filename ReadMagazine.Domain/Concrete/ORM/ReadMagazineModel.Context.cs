@@ -28,8 +28,8 @@ namespace ReadMagazine.Domain.Concrete.ORM
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Client> Clients { get; set; }
         public DbSet<ChannelDB> ChannelDBs { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<Noticia> Noticias { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

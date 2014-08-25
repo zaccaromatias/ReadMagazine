@@ -47,33 +47,43 @@ namespace ReadMagazine.Domain.Concrete
         {
             if (channelView != null)
             {
-                var urlXml = channelView.UrlXml;
-
-                XmlDocument doc = new XmlDocument();
-                XmlTextReader reader = new XmlTextReader(urlXml);
-                doc.Load(reader);
-                //doc.Save("c:\\reduser.xml");
-                //NameSpace para leer el content
-                this.NamespaceManager = new XmlNamespaceManager(doc.NameTable);
-                this.NamespaceManager.AddNamespace("content", doc.DocumentElement.GetNamespaceOfPrefix("content"));
-
-                var tituloChanel = doc.SelectSingleNode("/rss/channel/title");
-                var linkChanel = doc.SelectSingleNode("/rss/channel/link");
-                var descriptionChannel = doc.SelectSingleNode("/rss/channel/description");
-                var channel = new entitie.ChannelRss();
-
-                if (tituloChanel != null && linkChanel != null)
+                try
                 {
-                    channel.TituloChannel = tituloChanel.InnerText;
-                    channel.LinkChannel = linkChanel.InnerText;
+                    var urlXml = channelView.UrlXml;
+
+                    XmlDocument doc = new XmlDocument();
+                    XmlTextReader reader = new XmlTextReader(urlXml);
+                    doc.Load(reader);
+                    //doc.Save("c:\\reduser.xml");
+                    //NameSpace para leer el content
+                    this.NamespaceManager = new XmlNamespaceManager(doc.NameTable);
+                    this.NamespaceManager.AddNamespace("content", doc.DocumentElement.GetNamespaceOfPrefix("content"));
+
+                    var tituloChanel = doc.SelectSingleNode("/rss/channel/title");
+                    var linkChanel = doc.SelectSingleNode("/rss/channel/link");
+                    var descriptionChannel = doc.SelectSingleNode("/rss/channel/description");
+                    var channel = new entitie.ChannelRss();
+
+                    if (tituloChanel != null && linkChanel != null)
+                    {
+                        channel.TituloChannel = tituloChanel.InnerText;
+                        channel.LinkChannel = linkChanel.InnerText;
+                    }
+                    if (descriptionChannel != null)
+                        channel.DescriptionChannel = descriptionChannel.InnerText;
+                    XmlNodeList items = doc.GetElementsByTagName("item");
+                    channel.Paginas = CrearLayoutsParaCadaPagina(items);
+
+
+                    return channel;
+
                 }
-                if (descriptionChannel != null)
-                    channel.DescriptionChannel = descriptionChannel.InnerText;
-                XmlNodeList items = doc.GetElementsByTagName("item");
-                channel.Paginas = CrearLayoutsParaCadaPagina(items);
+                catch (System.Xml.XmlException er)
+                {
 
+                    throw er;
+                }
 
-                return channel;
 
             }
             else
@@ -249,9 +259,9 @@ namespace ReadMagazine.Domain.Concrete
         List<Channel> IChannelRepository.GetChannelsByUser(int clientId)
         {
             var channels = context.ChannelDBs
-                .Where(c=>c.ID_Client== clientId)
-                .Select<ChannelDB,Channel>(this.CreateEntity)
-                
+                .Where(c => c.ID_Client == clientId)
+                .Select<ChannelDB, Channel>(this.CreateEntity)
+
                 .ToList();
             return channels;
         }

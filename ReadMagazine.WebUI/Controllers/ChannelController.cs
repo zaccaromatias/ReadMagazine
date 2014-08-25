@@ -21,6 +21,7 @@ namespace ReadMagazine.WebUI.Controllers
             _channerlRepository = repository;
         }
 
+        [HandleError(View = "ErrorXml")]
         public ActionResult Index(string id)
         {
             ViewBag.id = id;
@@ -35,7 +36,7 @@ namespace ReadMagazine.WebUI.Controllers
                     break;
                 case "4": urlXml = "http://radioeltrebol.com.ar/feed";
                     break;
-                case "5": urlXml = "http://www.lacapital.com.ar/rss/home.xml";
+                case "5": urlXml = "http://www.lacapitalas.com.ar/rss/home.xml";
                     break;
                 case "6": urlXml = "http://feeds.feedburner.com/alistapart/main";
                     break;
@@ -66,18 +67,18 @@ namespace ReadMagazine.WebUI.Controllers
             return View(model);
         }
 
-       
+
 
         [HttpPost]
         public ActionResult Save(IEnumerable<Channel> model)
         {
-            
-            return Json(new { msg = "llamas"});
-            
+
+            return Json(new { msg = "llamas" });
+
 
         }
 
 
     }
-    
+
 }

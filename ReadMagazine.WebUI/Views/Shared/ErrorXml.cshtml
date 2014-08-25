@@ -1,0 +1,45 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/MagazineLayoutTapaAndCover.cshtml";    
+}
+<header class="main-title">
+    <h1>Sory <strong>Feed Problems</strong></h1>
+    <p>The feed selected seems to be invalid. Please check the URL.</p>
+    <h3>More <strong>Details</strong></h3>
+    <p>@Model.Exception.Message</p>
+</header>
+<header class="main-title" style="left: 50%">
+    <h1>Sory <strong>Feed Problems</strong></h1>
+    <p>The feed selected seems to be invalid. Please check the URL.</p>
+    <h3>More <strong>Details</strong></h3>
+    <p>@Model.Exception.Message</p>
+</header>
+<div id="flip" class="container">
+
+    <div class="f-page f-cover">
+        <div class="cover-elements">
+            <div class="logo">
+                :-(
+            </div>
+            <h1 style="color: #F86738; margin: 0 0 0 30%;">@TempData["message"]</h1>
+            <h1>could not be loaded<span><a href="javascript: return false;">feed news</a></span></h1>
+            <h1><span></span></h1>
+            <div class="f-cover-story">
+                <span>http://lacapital.com.ar</span>
+                <p>La Capital</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="f-page f-cover-back">
+        @*@{Html.RenderPartial("MannageChannels");};*@
+
+    </div>
+
+
+</div>
+<footer class="main-title-fotter">
+    <p>Best viewed in a Webkit browser (Safari, Chrome)</p>
+    <p><strong>www.ReadMagazine.com.ar : ReadMagazine © 2013 | web: [popo] | arte: popo</strong></p>
+</footer>
